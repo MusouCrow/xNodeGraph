@@ -1,0 +1,3 @@
+[submodule "Assets/3rd/xNode"]
+	path = Assets/3rd/xNode
+	url = git@github.com:Siccity/xNode.git
