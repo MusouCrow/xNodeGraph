@@ -1,11 +1,19 @@
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Graph {
     public class DelayNode : FlowNode {
-        public async override Task<object> RunAsync(Dictionary<BaseNode, object> cache) {
-            await Task.Delay(3000);
+        [Input(connectionType = ConnectionType.Override)]
+        public Float time;
+        private BaseNode timeNode;
+
+        protected override void Init() {
+            this.timeNode = this.GetPortNode("time");
+        }
+
+        public async override Task<object> RunAsync(Runtime runtime) {
+            var time = this.GetValueAsync<Float>(this.time, this.timeNode, runtime).Result;
+            await Task.Delay(Mathf.CeilToInt(time.value * 1000));
 
             return null;
         }

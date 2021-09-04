@@ -1,23 +1,17 @@
-using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using XNode;
 
 namespace Game.Graph {
-    // 插槽，表示代码执行的流向
-    [Serializable]
-    public class Solt {}
-
     public class BaseNode : Node {
         public override object GetValue(NodePort port) {
             return null;
         }
 
-        public virtual object Run(Dictionary<BaseNode, object> cache) {
+        public virtual object Run(Runtime runtime) {
             return null;
         }
 
-        public async virtual Task<object> RunAsync(Dictionary<BaseNode, object> cache) {
+        public async virtual Task<object> RunAsync(Runtime runtime) {
             return null;
         }
 
@@ -33,25 +27,25 @@ namespace Game.Graph {
             return null;
         }
 
-        public T GetValue<T>(T value, BaseNode node, Dictionary<BaseNode, object> cache) {
+        public T GetValue<T>(T value, BaseNode node, Runtime runtime) {
             if (node) {
-                if (cache.ContainsKey(node)) {
-                    return (T)cache[node];
+                if (runtime.cache.ContainsKey(node)) {
+                    return (T)runtime.cache[node];
                 }
 
-                return (T)node.Run(cache);
+                return (T)node.Run(runtime);
             }
 
             return value;
         }
 
-        public async Task<T> GetValueAsync<T>(T value, BaseNode node, Dictionary<BaseNode, object> cache) {
+        public async Task<T> GetValueAsync<T>(T value, BaseNode node, Runtime runtime) {
             if (node) {
-                if (cache.ContainsKey(node)) {
-                    return (T)cache[node];
+                if (runtime.cache.ContainsKey(node)) {
+                    return (T)runtime.cache[node];
                 }
 
-                var v = await node.RunAsync(cache);
+                var v = await node.RunAsync(runtime);
 
                 return (T)v;
             }

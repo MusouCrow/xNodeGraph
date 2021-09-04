@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace Game.Graph {
     public class StringNode : BaseNode {
@@ -8,11 +7,11 @@ namespace Game.Graph {
         [Output]
         public string Ret;
 
-        public override object Run(Dictionary<BaseNode, object> cache) {
+        public override object Run(Runtime runtime) {
             return this.value;
         }
 
-        public async override Task<object> RunAsync(Dictionary<BaseNode, object> cache) {
+        public async override Task<object> RunAsync(Runtime runtime) {
             return this.value;
         }
     }

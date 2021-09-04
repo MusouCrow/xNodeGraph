@@ -1,28 +1,26 @@
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Graph {
     public class LogNode : FlowNode {
         [Input(connectionType = ConnectionType.Override)]
         public string value;
-
         private BaseNode valueNode;
 
         protected override void Init() {
             this.valueNode = this.GetPortNode("value");
         }
 
-        public override object Run(Dictionary<BaseNode, object> cache) {
-            var value = this.GetValue<string>(this.value, this.valueNode, cache);
-            Debug.Log(value);
+        public override object Run(Runtime runtime) {
+            var value = this.GetValue<object>(this.value, this.valueNode, runtime);
+            Debug.Log(value.ToString());
 
             return null;
         }
 
-        public async override Task<object> RunAsync(Dictionary<BaseNode, object> cache) {
-            var value = this.GetValueAsync<string>(this.value, this.valueNode, cache);
-            Debug.Log(value.Result);
+        public async override Task<object> RunAsync(Runtime runtime) {
+            var value = this.GetValueAsync<object>(this.value, this.valueNode, runtime).Result;
+            Debug.Log(value.ToString());
 
             return null;
         }

@@ -1,12 +1,11 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Game.Graph {
     public class Runtime {
         private BaseGraph graph;
         private Dictionary<string, FuncNode> funcMap;
-        private Dictionary<BaseNode, object> cache;
+        public Dictionary<BaseNode, object> cache;
 
         public Runtime(BaseGraph graph) {
             this.graph = graph;
@@ -30,36 +29,34 @@ namespace Game.Graph {
                 return;
             }
 
-            this.cache.Clear();
-            this.RunNode(this.funcMap[func], this.cache);
+            this.RunNode(this.funcMap[func]);
         }
 
         public async void RunFuncAsync(string func) {
             if (!this.funcMap.ContainsKey(func)) {
                 return;
             }
-
-            this.cache.Clear();
-            await this.RunNodeAsync(this.funcMap[func], this.cache);
+            
+            await this.RunNodeAsync(this.funcMap[func]);
         }
 
-        private void RunNode(BaseNode node, Dictionary<BaseNode, object> cache) {
-            node.Run(cache);
+        private void RunNode(BaseNode node) {
+            node.Run(this);
 
             var next = this.GetNextNode(node);
             
             if (next) {
-                this.RunNode(next, cache);
+                this.RunNode(next);
             }
         }
 
-        private async Task RunNodeAsync(BaseNode node, Dictionary<BaseNode, object> cache) {
-            await node.RunAsync(cache);
+        private async Task RunNodeAsync(BaseNode node) {
+            await node.RunAsync(this);
 
             var next = this.GetNextNode(node);
             
             if (next) {
-                await this.RunNodeAsync(next, cache);
+                await this.RunNodeAsync(next);
             }
         }
 
