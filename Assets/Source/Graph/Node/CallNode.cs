@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using UnityEngine;
 
 namespace Game.Graph {
     public class CallNode : FlowNode {
@@ -8,6 +7,7 @@ namespace Game.Graph {
         private BaseNode funcNode;
 
         protected override void Init() {
+            base.Init();
             this.funcNode = this.GetPortNode("func");
         }
 
@@ -19,7 +19,7 @@ namespace Game.Graph {
         }
 
         public async override Task<object> RunAsync(Runtime runtime) {
-            var func = this.GetValueAsync<string>(this.func, this.funcNode, runtime).Result;
+            var func = await this.GetValueAsync<string>(this.func, this.funcNode, runtime);
             runtime.RunFuncAsync(func);
 
             return null;

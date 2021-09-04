@@ -40,10 +40,16 @@ namespace Game.Graph {
             await this.RunNodeAsync(this.funcMap[func]);
         }
 
+        public void CacheValue(BaseNode node, object value) {
+            if (node.NextNode) {
+                this.cache[node] = value;
+            }
+        }
+
         private void RunNode(BaseNode node) {
             node.Run(this);
 
-            var next = this.GetNextNode(node);
+            var next = node.NextNode;
             
             if (next) {
                 this.RunNode(next);
@@ -53,22 +59,11 @@ namespace Game.Graph {
         private async Task RunNodeAsync(BaseNode node) {
             await node.RunAsync(this);
 
-            var next = this.GetNextNode(node);
+            var next = node.NextNode;
             
             if (next) {
                 await this.RunNodeAsync(next);
             }
-        }
-
-        private BaseNode GetNextNode(BaseNode node) {
-            var port = node.GetPort("Out");
-            BaseNode next = null;
-
-            if (port.IsConnected) {
-                next = port.GetConnection(0).node as BaseNode;
-            }
-
-            return next;
         }
     }
 }

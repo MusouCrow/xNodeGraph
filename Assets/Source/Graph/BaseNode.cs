@@ -3,6 +3,15 @@ using XNode;
 
 namespace Game.Graph {
     public class BaseNode : Node {
+        public BaseNode NextNode {
+            get;
+            protected set;
+        }
+
+        protected override void Init() {
+            this.NextNode = this.GetPortNode("Out");
+        }
+
         public override object GetValue(NodePort port) {
             return null;
         }

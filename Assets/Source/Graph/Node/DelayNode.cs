@@ -8,11 +8,12 @@ namespace Game.Graph {
         private BaseNode timeNode;
 
         protected override void Init() {
+            base.Init();
             this.timeNode = this.GetPortNode("time");
         }
 
         public async override Task<object> RunAsync(Runtime runtime) {
-            var time = this.GetValueAsync<Float>(this.time, this.timeNode, runtime).Result;
+            var time = await this.GetValueAsync<Float>(this.time, this.timeNode, runtime);
             await Task.Delay(Mathf.CeilToInt(time.value * 1000));
 
             return null;

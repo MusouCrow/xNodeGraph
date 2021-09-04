@@ -8,6 +8,7 @@ namespace Game.Graph {
         private BaseNode valueNode;
 
         protected override void Init() {
+            base.Init();
             this.valueNode = this.GetPortNode("value");
         }
 
@@ -19,7 +20,7 @@ namespace Game.Graph {
         }
 
         public async override Task<object> RunAsync(Runtime runtime) {
-            var value = this.GetValueAsync<object>(this.value, this.valueNode, runtime).Result;
+            var value = await this.GetValueAsync<object>(this.value, this.valueNode, runtime);
             Debug.Log(value.ToString());
 
             return null;
