@@ -1,13 +1,11 @@
 using System.Threading.Tasks;
 
 namespace Game.Graph {
-    public class CompareNode : BaseNode {
+    public class CalculateNode : BaseNode {
         public enum Method {
-            Equal,
-            Less,
-            Greater,
-            LessThan,
-            GreaterThan
+            Add,
+            Minus,
+            Multiy
         }
 
         [Input(connectionType = ConnectionType.Override)]
@@ -21,7 +19,7 @@ namespace Game.Graph {
         public Method method;
 
         [Output]
-        public Bool ret;
+        public Float ret;
 
         protected override void Init() {
             base.Init();
@@ -32,7 +30,7 @@ namespace Game.Graph {
         public override object Run(Runtime runtime) {
             var a = this.GetValue<Float>(this.a, this.aNode, runtime);
             var b = this.GetValue<Float>(this.b, this.bNode, runtime);
-            this.ret.value = this.Compare(a.value, b.value);
+            this.ret.value = this.Calculate(a.value, b.value);
             
             return this.ret;
         }
@@ -40,29 +38,20 @@ namespace Game.Graph {
         public async override Task<object> RunAsync(Runtime runtime) {
             var a = await this.GetValueAsync<Float>(this.a, this.aNode, runtime);
             var b = await this.GetValueAsync<Float>(this.b, this.bNode, runtime);
-            this.ret.value = this.Compare(a.value, b.value);
+            this.ret.value = this.Calculate(a.value, b.value);
             
             return this.ret;
         }
 
-        private bool Compare(float a, float b) {
-            if (this.method == Method.Equal) {
-                return a == b;
+        private float Calculate(float a, float b) {
+            if (this.method == Method.Add) {
+                return a + b;
             }
-            else if (this.method == Method.Less) {
-                return a < b;
+            else if (this.method == Method.Minus) {
+                return a - b;
             }
-            else if (this.method == Method.Greater) {
-                return a > b;
-            }
-            else if (this.method == Method.LessThan) {
-                return a <= b;
-            }
-            else if (this.method == Method.GreaterThan) {
-                return a >= b;
-            }
-
-            return false;
+            
+            return a * b;
         }
     }
 }

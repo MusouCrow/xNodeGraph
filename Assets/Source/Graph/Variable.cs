@@ -8,15 +8,27 @@ namespace Game.Graph {
     [Serializable]
     public class Integer {
         public int value;
+
+        public override string ToString() {
+            return this.value.ToString();
+        }
     }
 
     [Serializable]
     public class Float {
         public float value;
+
+        public override string ToString() {
+            return this.value.ToString();
+        }
     }
 
     [Serializable]
     public class Bool {
         public bool value;
+
+        public override string ToString() {
+            return this.value.ToString();
+        }
     }
 }

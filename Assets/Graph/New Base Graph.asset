@@ -81,7 +81,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  value: Greater
+  value: False
 --- !u!114 &-9079543737496921013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,7 +106,10 @@ MonoBehaviour:
       _node: {fileID: -9079543737496921013}
       _typeQualifiedName: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
-      connections: []
+      connections:
+      - fieldName: ret
+        node: {fileID: 2260330338769719778}
+        reroutePoints: []
       _direction: 0
       _connectionType: 1
       _typeConstraint: 0
@@ -245,7 +248,7 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   value: Fuck
---- !u!114 &-3738511930605826853
+--- !u!114 &-2917024812499086876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -254,11 +257,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4976cf2298f8d4d29ba81e762ab1a719, type: 3}
-  m_Name: Compare
-  m_EditorClassIdentifier: 
+  m_Script: {fileID: 0}
+  m_Name: Equals
+  m_EditorClassIdentifier: Assembly-CSharp:Game.Graph:EqualsNode
   graph: {fileID: 11400000}
-  position: {x: 248, y: 472}
+  position: {x: -40, y: 488}
   ports:
     keys:
     - a
@@ -266,40 +269,37 @@ MonoBehaviour:
     - ret
     values:
     - _fieldName: a
-      _node: {fileID: -3738511930605826853}
-      _typeQualifiedName: Game.Graph.Integer, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _node: {fileID: -2917024812499086876}
+      _typeQualifiedName: UnityEngine.Object, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 0
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
     - _fieldName: b
-      _node: {fileID: -3738511930605826853}
-      _typeQualifiedName: Game.Graph.Integer, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
+      _node: {fileID: -2917024812499086876}
+      _typeQualifiedName: UnityEngine.Object, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 0
       _connectionType: 1
       _typeConstraint: 0
       _dynamic: 0
     - _fieldName: ret
-      _node: {fileID: -3738511930605826853}
+      _node: {fileID: -2917024812499086876}
       _typeQualifiedName: Game.Graph.Bool, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
-      - fieldName: condition
-        node: {fileID: -2274723901973204107}
+      - fieldName: a
+        node: {fileID: 5257569906413915617}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  a:
-    value: 1
-  b:
-    value: 3
-  method: 1
+  a: {fileID: 6817454963314881287, guid: c8a0d36ece2a249cf892a81dc760fa67, type: 3}
+  b: {fileID: 0}
   ret:
     value: 0
 --- !u!114 &-2274723901973204107
@@ -330,7 +330,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: ret
-        node: {fileID: -3738511930605826853}
+        node: {fileID: 5257569906413915617}
         reroutePoints: []
       _direction: 0
       _connectionType: 1
@@ -383,6 +383,95 @@ MonoBehaviour:
       _dynamic: 0
   condition:
     value: 0
+--- !u!114 &-1425163480508975280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4976cf2298f8d4d29ba81e762ab1a719, type: 3}
+  m_Name: Compare
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -40, y: 632}
+  ports:
+    keys:
+    - a
+    - b
+    - ret
+    values:
+    - _fieldName: a
+      _node: {fileID: -1425163480508975280}
+      _typeQualifiedName: Game.Graph.Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: b
+      _node: {fileID: -1425163480508975280}
+      _typeQualifiedName: Game.Graph.Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: ret
+      _node: {fileID: -1425163480508975280}
+      _typeQualifiedName: Game.Graph.Bool, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: b
+        node: {fileID: 5257569906413915617}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  a:
+    value: 1
+  b:
+    value: 2
+  method: 3
+  ret:
+    value: 0
+--- !u!114 &-229686170887663754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: String
+  m_EditorClassIdentifier: Assembly-CSharp:Game.Graph:StringNode
+  graph: {fileID: 11400000}
+  position: {x: -24, y: 104}
+  ports:
+    keys:
+    - Ret
+    values:
+    - _fieldName: Ret
+      _node: {fileID: -229686170887663754}
+      _typeQualifiedName: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: value
+        node: {fileID: 6212360036409720755}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  value: Love
+  Ret: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,7 +488,6 @@ MonoBehaviour:
   - {fileID: 6794632967225049274}
   - {fileID: 6212360036409720755}
   - {fileID: 7878107170720751329}
-  - {fileID: 2276041018454625906}
   - {fileID: -7061129622549576383}
   - {fileID: 5120824399498458582}
   - {fileID: -5062152169408118492}
@@ -408,9 +496,13 @@ MonoBehaviour:
   - {fileID: 5541530271890107176}
   - {fileID: -9079543737496921013}
   - {fileID: -2274723901973204107}
-  - {fileID: -3738511930605826853}
   - {fileID: 5380746701373691042}
   - {fileID: -9121981324108125371}
+  - {fileID: -2917024812499086876}
+  - {fileID: -229686170887663754}
+  - {fileID: 2260330338769719778}
+  - {fileID: 5257569906413915617}
+  - {fileID: -1425163480508975280}
 --- !u!114 &1637054302723874365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,6 +557,63 @@ MonoBehaviour:
       _typeConstraint: 2
       _dynamic: 0
   value: Test
+--- !u!114 &2260330338769719778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3733f609860874d23ae261846dd749f1, type: 3}
+  m_Name: Calculate
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 1448, y: 456}
+  ports:
+    keys:
+    - a
+    - b
+    - ret
+    values:
+    - _fieldName: a
+      _node: {fileID: 2260330338769719778}
+      _typeQualifiedName: Game.Graph.Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: b
+      _node: {fileID: 2260330338769719778}
+      _typeQualifiedName: Game.Graph.Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: ret
+      _node: {fileID: 2260330338769719778}
+      _typeQualifiedName: Game.Graph.Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: value
+        node: {fileID: -9079543737496921013}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  a:
+    value: 1
+  b:
+    value: 2
+  method: 0
+  ret:
+    value: 3
 --- !u!114 &2276041018454625906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,6 +714,69 @@ MonoBehaviour:
       _dynamic: 0
   prefab: {fileID: 6817454963314881287, guid: c8a0d36ece2a249cf892a81dc760fa67, type: 3}
   ret: {fileID: 0}
+--- !u!114 &5257569906413915617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42247465f840b4478ac9a513e8b228c3, type: 3}
+  m_Name: Logic
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 248, y: 488}
+  ports:
+    keys:
+    - a
+    - b
+    - ret
+    values:
+    - _fieldName: a
+      _node: {fileID: 5257569906413915617}
+      _typeQualifiedName: Game.Graph.Bool, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: ret
+        node: {fileID: -2917024812499086876}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: b
+      _node: {fileID: 5257569906413915617}
+      _typeQualifiedName: Game.Graph.Bool, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: ret
+        node: {fileID: -1425163480508975280}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: ret
+      _node: {fileID: 5257569906413915617}
+      _typeQualifiedName: Game.Graph.Bool, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: condition
+        node: {fileID: -2274723901973204107}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  a:
+    value: 0
+  b:
+    value: 0
+  method: 1
+  ret:
+    value: 1
 --- !u!114 &5380746701373691042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -615,7 +827,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 0
-  value: Less
+  value: True
 --- !u!114 &5541530271890107176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -696,7 +908,7 @@ MonoBehaviour:
         PublicKeyToken=b77a5c561934e089
       connections:
       - fieldName: Ret
-        node: {fileID: 2276041018454625906}
+        node: {fileID: -229686170887663754}
         reroutePoints: []
       _direction: 0
       _connectionType: 1
