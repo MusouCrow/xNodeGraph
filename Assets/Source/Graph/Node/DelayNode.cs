@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Game.Graph {
     public class DelayNode : FlowNode {
         [Input(connectionType = ConnectionType.Override)]
-        public Float time;
+        public Number time;
         private BaseNode timeNode;
 
         protected override void Init() {
@@ -13,7 +13,7 @@ namespace Game.Graph {
         }
 
         public async override Task<object> RunAsync(Runtime runtime) {
-            var time = await this.GetValueAsync<Float>(this.time, this.timeNode, runtime);
+            var time = await this.GetValueAsync<Number>(this.time, this.timeNode, runtime);
             await Task.Delay(Mathf.CeilToInt(time.value * 1000));
 
             return null;

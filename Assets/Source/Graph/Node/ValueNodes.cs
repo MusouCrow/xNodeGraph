@@ -1,26 +1,12 @@
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Game.Graph {
-    public class FloatNode : BaseNode {
-        public Float value;
+    public class NumberNode : BaseNode {
+        public Number value;
 
         [Output]
-        public Float Ret;
-
-        public override object Run(Runtime runtime) {
-            return this.value;
-        }
-
-        public async override Task<object> RunAsync(Runtime runtime) {
-            return this.value;
-        }
-    }
-
-    public class IntegerNode : BaseNode {
-        public Integer value;
-
-        [Output]
-        public Integer Ret;
+        public Number Ret;
 
         public override object Run(Runtime runtime) {
             return this.value;
@@ -51,6 +37,21 @@ namespace Game.Graph {
 
         [Output]
         public string Ret;
+
+        public override object Run(Runtime runtime) {
+            return this.value;
+        }
+
+        public async override Task<object> RunAsync(Runtime runtime) {
+            return this.value;
+        }
+    }
+
+    public class ObjectNode : BaseNode {
+        public Object value;
+
+        [Output]
+        public Object Ret;
 
         public override object Run(Runtime runtime) {
             return this.value;

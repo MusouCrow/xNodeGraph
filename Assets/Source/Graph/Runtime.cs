@@ -6,10 +6,12 @@ namespace Game.Graph {
         private BaseGraph graph;
         private Dictionary<string, FuncNode> funcMap;
         public Dictionary<BaseNode, object> cache;
+        public Dictionary<string, object> variable;
 
         public Runtime(BaseGraph graph) {
             this.graph = graph;
             this.cache = new Dictionary<BaseNode, object>();
+            this.variable = new Dictionary<string, object>();
             this.InitFuncMap();
         }
 

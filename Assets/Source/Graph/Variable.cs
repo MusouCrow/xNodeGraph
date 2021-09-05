@@ -6,16 +6,10 @@ namespace Game.Graph {
     public class Solt {}
 
     [Serializable]
-    public class Integer {
-        public int value;
-
-        public override string ToString() {
-            return this.value.ToString();
-        }
-    }
+    public class Obj {}
 
     [Serializable]
-    public class Float {
+    public class Number {
         public float value;
 
         public override string ToString() {

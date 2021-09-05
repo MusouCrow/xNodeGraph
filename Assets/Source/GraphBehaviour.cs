@@ -11,7 +11,7 @@ namespace Game {
 
         protected void Start() {
             this.runtime = new Runtime(this.graph);
-            this.runtime.RunFuncAsync("Init");
+            this.runtime.RunFunc("Init");
         }
 
         protected void Update() {
