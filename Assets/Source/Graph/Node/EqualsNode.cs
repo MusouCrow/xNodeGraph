@@ -9,6 +9,12 @@ namespace Game.Graph {
             }
         }
 
+        public override string Note {
+            get {
+                return @"比较两个Unity对象是否相同";
+            }
+        }
+
         [Input(connectionType = ConnectionType.Override)]
         public Object a;
         private BaseNode aNode;

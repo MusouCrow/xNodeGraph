@@ -7,6 +7,12 @@ namespace Game.Graph {
                 return "调用功能";
             }
         }
+
+        public override string Note {
+            get {
+                return "调用本蓝图内的其他功能节点";
+            }
+        }
         
         [Input(connectionType = ConnectionType.Override)]
         public string func;

@@ -9,6 +9,12 @@ namespace Game.Graph {
             }
         }
 
+        public override string Note {
+            get {
+                return "根据Prefab创建GameObject";
+            }
+        }
+
         [Input(connectionType = ConnectionType.Override)]
         public GameObject prefab;
         private BaseNode prefabNode;

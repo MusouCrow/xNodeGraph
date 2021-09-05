@@ -8,6 +8,12 @@ namespace Game.Graph {
             }
         }
 
+        public override string Note {
+            get {
+                return "通过与/或/非，结合两个逻辑值得出结果\n如果使用Not（取反）的时候，只需要填写参数a即可";
+            }
+        }
+
         public enum Method {
             And,
             Or,

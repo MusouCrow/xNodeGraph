@@ -8,6 +8,12 @@ namespace Game.Graph {
             }
         }
 
+        public override string Note {
+            get {
+                return "涉及加/减/乘三样的数值运算";
+            }
+        }
+
         public enum Method {
             Add,
             Minus,

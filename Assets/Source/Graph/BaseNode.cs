@@ -9,6 +9,12 @@ namespace Game.Graph {
             }
         }
 
+        public virtual string Note {
+            get {
+                return "";
+            }
+        }
+
         public BaseNode NextNode {
             get;
             protected set;

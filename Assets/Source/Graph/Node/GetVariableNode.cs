@@ -9,6 +9,12 @@ namespace Game.Graph {
             }
         }
 
+        public override string Note {
+            get {
+                return @"根据名字获取变量";
+            }
+        }
+
         public string var;
 
         [Output]

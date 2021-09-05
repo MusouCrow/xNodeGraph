@@ -9,6 +9,12 @@ namespace Game.Graph {
             }
         }
 
+        public override string Note {
+            get {
+                return @"通过名字与值设置变量";
+            }
+        }
+
         public string var;
 
         [Input(connectionType = ConnectionType.Override)]

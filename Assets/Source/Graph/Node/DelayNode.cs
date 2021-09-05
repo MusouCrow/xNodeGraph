@@ -5,7 +5,13 @@ namespace Game.Graph {
     public class DelayNode : FlowNode {
         public override string Title {
             get {
-                return "延时";
+                return "等待";
+            }
+        }
+
+        public override string Note {
+            get {
+                return @"等待一段时间后继续执行";
             }
         }
 

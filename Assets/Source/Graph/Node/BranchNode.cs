@@ -7,6 +7,12 @@ namespace Game.Graph {
                 return "条件分支";
             }
         }
+
+        public override string Note {
+            get {
+                return "根据condition决定代码接下来的走向(True, False)，最后再走Out";
+            }
+        }
         
         [Input(connectionType = ConnectionType.Override)]
         public Bool condition;

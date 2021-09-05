@@ -8,6 +8,17 @@ namespace Game.Graph {
             }
         }
 
+        public override string Note {
+            get {
+                return @"比较数值，最后输出逻辑值: 
+                Equal: 相等
+                Less: 小于
+                Greater: 大于
+                LessThan: 小于等于
+                GreaterThan: 大于等于";
+            }
+        }
+
         public enum Method {
             Equal,
             Less,

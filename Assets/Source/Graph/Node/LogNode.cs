@@ -9,6 +9,12 @@ namespace Game.Graph {
             }
         }
 
+        public override string Note {
+            get {
+                return @"打印输出结果";
+            }
+        }
+
         [Input(connectionType = ConnectionType.Override)]
         public string value;
         private BaseNode valueNode;
