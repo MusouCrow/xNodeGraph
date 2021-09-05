@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using XNode;
 
 namespace Game.Graph {
+    [CreateNodeMenuAttribute("调试输出")]
     public class LogNode : FlowNode {
         public override string Title {
             get {

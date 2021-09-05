@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
+using XNode;
 
 namespace Game.Graph {
+    [CreateNodeMenuAttribute("数值运算")]
     public class CalculateNode : BaseNode {
         public override string Title {
             get {

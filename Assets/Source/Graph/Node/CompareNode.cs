@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
+using XNode;
 
 namespace Game.Graph {
+    [CreateNodeMenuAttribute("比较数值")]
     public class CompareNode : BaseNode {
         public override string Title {
             get {

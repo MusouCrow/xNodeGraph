@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
+using XNode;
 
 namespace Game.Graph {
+    [CreateNodeMenuAttribute("逻辑判断")]
     public class LogicNode : BaseNode {
         public override string Title {
             get {

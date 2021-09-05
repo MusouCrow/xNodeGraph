@@ -18,6 +18,7 @@ namespace GEditor.Graph {
             bool ok = false;
             
             for (int i = graph.nodes.Count - 1; i >= 0; i--) {
+                Debug.Log(graph.nodes[i]);
                 if (graph.nodes[i] == null) {
                     graph.nodes.RemoveAt(i);
                     ok = true;
@@ -26,6 +27,7 @@ namespace GEditor.Graph {
 
             if (ok) {
                 Debug.Log("蓝图无用节点清理完成");
+                AssetDatabase.SaveAssets();
             }
         }
     }

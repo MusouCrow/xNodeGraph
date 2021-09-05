@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using XNode;
 
 namespace Game.Graph {
+    [CreateNodeMenuAttribute("比较对象")]
     public class EqualsNode : BaseNode {
         public override string Title {
             get {

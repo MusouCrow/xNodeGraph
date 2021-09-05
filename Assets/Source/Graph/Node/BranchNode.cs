@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
+using XNode;
 
 namespace Game.Graph {
+    [CreateNodeMenuAttribute("条件分支")]
     public class BranchNode : FlowNode {
         public override string Title {
             get {

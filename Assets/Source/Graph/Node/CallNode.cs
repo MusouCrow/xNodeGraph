@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
+using XNode;
 
 namespace Game.Graph {
+    [CreateNodeMenuAttribute("调用功能")]
     public class CallNode : FlowNode {
         public override string Title {
             get {

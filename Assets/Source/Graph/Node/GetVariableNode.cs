@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using XNode;
 
 namespace Game.Graph {
+    [CreateNodeMenuAttribute("获取变量")]
     public class GetVariableNode : BaseNode {
         public override string Title {
             get {

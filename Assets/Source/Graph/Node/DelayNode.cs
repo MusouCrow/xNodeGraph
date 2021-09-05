@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using XNode;
 
 namespace Game.Graph {
+    [CreateNodeMenuAttribute("等待")]
     public class DelayNode : FlowNode {
         public override string Title {
             get {

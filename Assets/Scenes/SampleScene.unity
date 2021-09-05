@@ -328,7 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f85da708a9841e2bc85532bf658973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graph: {fileID: 11400000, guid: 54d343d59d36a4b2b8c111b06427d2d2, type: 2}
+  graph: {fileID: 0}
 --- !u!4 &1258872072
 Transform:
   m_ObjectHideFlags: 0

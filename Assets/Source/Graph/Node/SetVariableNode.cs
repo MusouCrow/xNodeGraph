@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using XNode;
 
 namespace Game.Graph {
+    [CreateNodeMenuAttribute("设置变量")]
     public class SetVariableNode : FlowNode {
         public override string Title {
             get {

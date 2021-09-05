@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using UnityEngine;
+using XNode;
 
 namespace Game.Graph {
+    [CreateNodeMenuAttribute("创建GameObject")]
     public class InstantiateNode : FlowNode {
         public override string Title {
             get {
