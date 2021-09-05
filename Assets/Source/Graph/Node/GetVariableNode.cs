@@ -3,6 +3,12 @@ using UnityEngine;
 
 namespace Game.Graph {
     public class GetVariableNode : BaseNode {
+        public override string Title {
+            get {
+                return "获取变量";
+            }
+        }
+
         public string var;
 
         [Output]

@@ -3,6 +3,12 @@ using UnityEngine;
 
 namespace Game.Graph {
     public class InstantiateNode : FlowNode {
+        public override string Title {
+            get {
+                return "创建GameObject";
+            }
+        }
+
         [Input(connectionType = ConnectionType.Override)]
         public GameObject prefab;
         private BaseNode prefabNode;

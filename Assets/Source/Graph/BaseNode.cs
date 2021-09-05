@@ -3,6 +3,12 @@ using XNode;
 
 namespace Game.Graph {
     public class BaseNode : Node {
+        public virtual string Title {
+            get {
+                return this.name;
+            }
+        }
+
         public BaseNode NextNode {
             get;
             protected set;

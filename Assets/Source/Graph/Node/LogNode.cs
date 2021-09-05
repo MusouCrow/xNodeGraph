@@ -3,12 +3,19 @@ using UnityEngine;
 
 namespace Game.Graph {
     public class LogNode : FlowNode {
+        public override string Title {
+            get {
+                return "调试输出";
+            }
+        }
+
         [Input(connectionType = ConnectionType.Override)]
         public string value;
         private BaseNode valueNode;
 
         protected override void Init() {
             base.Init();
+
             this.valueNode = this.GetPortNode("value");
         }
 

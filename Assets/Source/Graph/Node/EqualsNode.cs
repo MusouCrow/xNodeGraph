@@ -3,6 +3,12 @@ using UnityEngine;
 
 namespace Game.Graph {
     public class EqualsNode : BaseNode {
+        public override string Title {
+            get {
+                return "比较对象";
+            }
+        }
+
         [Input(connectionType = ConnectionType.Override)]
         public Object a;
         private BaseNode aNode;

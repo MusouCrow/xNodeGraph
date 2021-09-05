@@ -3,6 +3,12 @@ using UnityEngine;
 
 namespace Game.Graph {
     public class NumberNode : BaseNode {
+        public override string Title {
+            get {
+                return "数值";
+            }
+        }
+
         public Number value;
 
         [Output]
@@ -18,6 +24,12 @@ namespace Game.Graph {
     }
 
     public class BoolNode : BaseNode {
+        public override string Title {
+            get {
+                return "布尔值";
+            }
+        }
+
         public Bool value;
 
         [Output]
@@ -33,6 +45,12 @@ namespace Game.Graph {
     }
 
     public class StringNode : BaseNode {
+        public override string Title {
+            get {
+                return "文本";
+            }
+        }
+
         public string value;
 
         [Output]
@@ -48,6 +66,12 @@ namespace Game.Graph {
     }
 
     public class ObjectNode : BaseNode {
+        public override string Title {
+            get {
+                return "资源对象";
+            }
+        }
+
         public Object value;
 
         [Output]

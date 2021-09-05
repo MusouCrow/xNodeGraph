@@ -2,6 +2,12 @@ using System.Threading.Tasks;
 
 namespace Game.Graph {
     public class CompareNode : BaseNode {
+        public override string Title {
+            get {
+                return "比较数值";
+            }
+        }
+
         public enum Method {
             Equal,
             Less,

@@ -2,6 +2,12 @@ using System.Threading.Tasks;
 
 namespace Game.Graph {
     public class BranchNode : FlowNode {
+        public override string Title {
+            get {
+                return "条件分支";
+            }
+        }
+        
         [Input(connectionType = ConnectionType.Override)]
         public Bool condition;
         private BaseNode conditionNode;

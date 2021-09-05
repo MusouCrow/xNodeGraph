@@ -2,6 +2,12 @@ using System.Threading.Tasks;
 
 namespace Game.Graph {
     public class CalculateNode : BaseNode {
+        public override string Title {
+            get {
+                return "数值运算";
+            }
+        }
+
         public enum Method {
             Add,
             Minus,

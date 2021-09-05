@@ -2,6 +2,12 @@ using System.Threading.Tasks;
 
 namespace Game.Graph {
     public class CallNode : FlowNode {
+        public override string Title {
+            get {
+                return "调用功能";
+            }
+        }
+        
         [Input(connectionType = ConnectionType.Override)]
         public string func;
         private BaseNode funcNode;

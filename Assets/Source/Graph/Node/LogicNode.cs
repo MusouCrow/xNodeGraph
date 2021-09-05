@@ -2,6 +2,12 @@ using System.Threading.Tasks;
 
 namespace Game.Graph {
     public class LogicNode : BaseNode {
+        public override string Title {
+            get {
+                return "逻辑判断";
+            }
+        }
+
         public enum Method {
             And,
             Or,

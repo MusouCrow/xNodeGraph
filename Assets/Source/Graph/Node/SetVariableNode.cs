@@ -3,6 +3,12 @@ using UnityEngine;
 
 namespace Game.Graph {
     public class SetVariableNode : FlowNode {
+        public override string Title {
+            get {
+                return "设置变量";
+            }
+        }
+
         public string var;
 
         [Input(connectionType = ConnectionType.Override)]

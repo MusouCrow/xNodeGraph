@@ -3,6 +3,12 @@ using UnityEngine;
 
 namespace Game.Graph {
     public class DelayNode : FlowNode {
+        public override string Title {
+            get {
+                return "延时";
+            }
+        }
+
         [Input(connectionType = ConnectionType.Override)]
         public Number time;
         private BaseNode timeNode;
