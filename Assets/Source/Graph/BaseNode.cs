@@ -33,6 +33,8 @@ namespace Game.Graph {
         }
 
         public async virtual Task<object> RunAsync(Runtime runtime) {
+            await Task.CompletedTask;
+            
             return null;
         }
 

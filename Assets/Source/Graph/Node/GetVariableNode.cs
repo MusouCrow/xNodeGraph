@@ -27,6 +27,8 @@ namespace Game.Graph {
         }
 
         public async override Task<object> RunAsync(Runtime runtime) {
+            await Task.CompletedTask;
+            
             return runtime.variable[this.var];
         }
     }
