@@ -8,8 +8,9 @@ namespace Game.Lib {
             return a + b;
         }
 
+        [Node("数学-等待")]
         public async static Task<float> Wait(float v) {
-            await Task.Delay(1000);
+            await Task.Delay(5000);
 
             return v;
         }

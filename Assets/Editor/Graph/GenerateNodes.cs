@@ -2,7 +2,9 @@ using System;
 using System.IO;
 using System.Text;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEditor;
 using Game.Graph;
@@ -57,7 +59,7 @@ namespace Generated.Graph.{Namespace} {
         private const string INIT_CODE = "this.{Name}Node = this.GetPortNode(\"{Name}\");";
         private const string GET_VALUE_CODE = "var {Name} = this.GetValue<{Type}>(this.{Name}, this.{Name}Node, runtime);";
         private const string GET_VALUE_ASYNC_CODE = "var {Name} = await this.GetValueAsync<{Type}>(this.{Name}, this.{Name}Node, runtime);";
-        private const string CACHE_VALUE_CODE = "runtime.CacheValue(this, ret);";
+        private const string CACHE_VALUE_CODE = "runtime.CacheValue(this, this.ret);";
 
         public const string GEN_PATH = "Assets/Generated/Graph/";
 
@@ -71,6 +73,7 @@ namespace Generated.Graph.{Namespace} {
         public static void Menu() {
             ClearFolder();
             Generates();
+            EditorUtility.RequestScriptReload();
         }
 
         private static void ClearFolder() {
@@ -133,7 +136,7 @@ namespace Generated.Graph.{Namespace} {
                 var code = "\t\t" + DEFINE_INPUT_CODE;
                 var type = ConvertType(p.ParameterType);
 
-                code = code.Replace("{Type}", type.FullName);
+                code = code.Replace("{Type}", type);
                 code = code.Replace("{Name}", p.Name);
                 sb.AppendLine(code);
             }
@@ -142,7 +145,7 @@ namespace Generated.Graph.{Namespace} {
                 var code = "\t\t" + DEFINE_OUTPUT_CODE;
                 var type = ConvertType(method.ReturnType);
 
-                code = code.Replace("{Type}", type.FullName);
+                code = code.Replace("{Type}", type);
                 sb.Append(code);
             }
 
@@ -165,12 +168,17 @@ namespace Generated.Graph.{Namespace} {
             var sb = new StringBuilder();
             var pars = method.GetParameters();
             var hasRet = method.ReturnType.FullName != "System.Void";
+            var asyncAttr = method.GetCustomAttribute<AsyncStateMachineAttribute>();
+
+            if (asyncAttr != null && !async) {
+                return "";
+            }
 
             foreach (var p in pars) {
                 var code = async ? GET_VALUE_ASYNC_CODE : GET_VALUE_CODE;
                 var t = ConvertType(p.ParameterType);
 
-                code = code.Replace("{Type}", t.FullName);
+                code = code.Replace("{Type}", t);
                 code = code.Replace("{Name}", p.Name);
                 sb.AppendLine("\t\t\t" + code);
             }
@@ -178,12 +186,16 @@ namespace Generated.Graph.{Namespace} {
             sb.Append("\t\t\t");
             
             if (hasRet) {
-                if (TypeMapping.ContainsKey(method.ReturnType)) {
+                if (IsValueType(method.ReturnType)) {
                     sb.Append("this.ret.value = ");
                 }
                 else {
                     sb.Append("this.ret = ");
                 }
+            }
+
+            if (asyncAttr != null && async) {
+                sb.Append("await ");
             }
 
             sb.Append(type.FullName + "." + method.Name);
@@ -192,7 +204,7 @@ namespace Generated.Graph.{Namespace} {
             for (int i = 0; i < pars.Length; i++) {
                 sb.Append(pars[i].Name);
                 
-                if (TypeMapping.ContainsKey(pars[i].ParameterType)) {
+                if (IsValueType(pars[i].ParameterType)) {
                     sb.Append(".value");
                 }
 
@@ -224,12 +236,54 @@ namespace Generated.Graph.{Namespace} {
             Debug.Log("Write to " + path);
         }
 
-        private static Type ConvertType(Type type) {
-            if (TypeMapping.ContainsKey(type)) {
-                return TypeMapping[type];
+        private static bool IsValueType(Type type) {
+            var gtypes = type.GenericTypeArguments;
+
+            if (gtypes != null && gtypes.Length > 0 && type.BaseType == typeof(Task)) {
+                type = gtypes[0];
             }
 
-            return type;
+            return TypeMapping.ContainsKey(type);
+        }
+
+        private static string ConvertType(Type type) {
+            var gtypes = type.GenericTypeArguments;
+
+            if (gtypes != null && gtypes.Length > 0) {
+                if (type.BaseType == typeof(Task)) {
+                    type = gtypes[0];
+                }
+                else {
+                    return ConvertGenericType(type);
+                }
+            }
+
+            if (TypeMapping.ContainsKey(type)) {
+                type = TypeMapping[type];
+            }
+
+            return type.FullName;
+        }
+
+        private static string ConvertGenericType(Type type) {
+            var gtypes = type.GenericTypeArguments;
+
+            var sb = new StringBuilder();
+            sb.Append(type.BaseType.FullName);
+            sb.Append("<");
+
+            for (int i = 0; i < gtypes.Length; i++) {
+                var t = ConvertType(gtypes[i]);
+                sb.Append(t);
+
+                if (i < gtypes.Length - 1) {
+                    sb.Append(", ");
+                }
+            }
+
+            sb.Append(">");
+
+            return sb.ToString();
         }
     }
 }
