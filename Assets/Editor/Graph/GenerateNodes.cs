@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Reflection;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using Game.Graph;
@@ -60,6 +61,12 @@ namespace Generated.Graph.{Namespace} {
 
         public const string GEN_PATH = "Assets/Generated/Graph/";
 
+        public static Dictionary<Type, Type> TypeMapping = new Dictionary<Type, Type>() {
+            {typeof(System.Single), typeof(Number)},
+            {typeof(System.Int32), typeof(Number)},
+            {typeof(System.Boolean), typeof(Bool)}
+        };
+
         [MenuItem("Tools/Graph/Generate Nodes")]
         public static void Menu() {
             ClearFolder();
@@ -96,7 +103,7 @@ namespace Generated.Graph.{Namespace} {
             var init = GenerateInitCode(method);
             var call = GenerateCallCode(type, method, attr, false);
             var callAsync = GenerateCallCode(type, method, attr, true);
-            var ret = method.ReturnType.FullName == "System.Void" ? "null" : "ret";
+            var ret = method.ReturnType.FullName == "System.Void" ? "null" : "this.ret";
             
             code = code.Replace("{Defines}", defines);
             code = code.Replace("{Init}", init);
@@ -124,14 +131,18 @@ namespace Generated.Graph.{Namespace} {
 
             foreach (var p in method.GetParameters()) {
                 var code = "\t\t" + DEFINE_INPUT_CODE;
-                code = code.Replace("{Type}", p.ParameterType.FullName);
+                var type = ConvertType(p.ParameterType);
+
+                code = code.Replace("{Type}", type.FullName);
                 code = code.Replace("{Name}", p.Name);
                 sb.AppendLine(code);
             }
             
             if (method.ReturnType.FullName != "System.Void") {
                 var code = "\t\t" + DEFINE_OUTPUT_CODE;
-                code = code.Replace("{Type}", method.ReturnType.FullName);
+                var type = ConvertType(method.ReturnType);
+
+                code = code.Replace("{Type}", type.FullName);
                 sb.Append(code);
             }
 
@@ -157,7 +168,9 @@ namespace Generated.Graph.{Namespace} {
 
             foreach (var p in pars) {
                 var code = async ? GET_VALUE_ASYNC_CODE : GET_VALUE_CODE;
-                code = code.Replace("{Type}", p.ParameterType.FullName);
+                var t = ConvertType(p.ParameterType);
+
+                code = code.Replace("{Type}", t.FullName);
                 code = code.Replace("{Name}", p.Name);
                 sb.AppendLine("\t\t\t" + code);
             }
@@ -165,7 +178,12 @@ namespace Generated.Graph.{Namespace} {
             sb.Append("\t\t\t");
             
             if (hasRet) {
-                sb.Append("var ret = ");
+                if (TypeMapping.ContainsKey(method.ReturnType)) {
+                    sb.Append("this.ret.value = ");
+                }
+                else {
+                    sb.Append("this.ret = ");
+                }
             }
 
             sb.Append(type.FullName + "." + method.Name);
@@ -173,6 +191,10 @@ namespace Generated.Graph.{Namespace} {
 
             for (int i = 0; i < pars.Length; i++) {
                 sb.Append(pars[i].Name);
+                
+                if (TypeMapping.ContainsKey(pars[i].ParameterType)) {
+                    sb.Append(".value");
+                }
 
                 if (i < pars.Length - 1) {
                     sb.Append(", ");
@@ -200,6 +222,14 @@ namespace Generated.Graph.{Namespace} {
             path = path + "/" + className + ".cs";
             File.WriteAllText(path, code);
             Debug.Log("Write to " + path);
+        }
+
+        private static Type ConvertType(Type type) {
+            if (TypeMapping.ContainsKey(type)) {
+                return TypeMapping[type];
+            }
+
+            return type;
         }
     }
 }
