@@ -67,5 +67,11 @@ namespace Game.Graph {
                 await this.RunNodeAsync(next);
             }
         }
+
+        public void SetVariable(string name, object value) {
+            if (value != null) {
+                this.variable[name] = value;
+            }
+        }
     }
 }

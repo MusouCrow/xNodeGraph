@@ -61,6 +61,7 @@ namespace Generated.Graph.{Namespace} {
         private const string GET_VALUE_ASYNC_CODE = "var {Name} = await this.GetValueAsync<{Type}>(this.{Name}, this.{Name}Node, runtime);";
         private const string CACHE_VALUE_CODE = "runtime.CacheValue(this, this.ret);";
         private const string GET_VAR_CODE = "var {Name} = runtime.variable[\"{Name}\"] as {Type};";
+        private const string AWAIT_CODE = "await Task.CompletedTask;";
 
         public const string GEN_PATH = "Assets/Generated/Graph/";
 
@@ -238,6 +239,10 @@ namespace Generated.Graph.{Namespace} {
 
             if (attr.isFlow && hasRet) {
                 sb.AppendLine("\t\t\t" + CACHE_VALUE_CODE);
+            }
+
+            if (asyncAttr == null && async) {
+                sb.AppendLine("\t\t\t" + AWAIT_CODE);
             }
 
             return sb.ToString();
