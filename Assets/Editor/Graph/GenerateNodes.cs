@@ -60,6 +60,7 @@ namespace Generated.Graph.{Namespace} {
         private const string GET_VALUE_CODE = "var {Name} = this.GetValue<{Type}>(this.{Name}, this.{Name}Node, runtime);";
         private const string GET_VALUE_ASYNC_CODE = "var {Name} = await this.GetValueAsync<{Type}>(this.{Name}, this.{Name}Node, runtime);";
         private const string CACHE_VALUE_CODE = "runtime.CacheValue(this, this.ret);";
+        private const string GET_VAR_CODE = "var {Name} = runtime.variable[\"{Name}\"] as {Type};";
 
         public const string GEN_PATH = "Assets/Generated/Graph/";
 
@@ -102,8 +103,8 @@ namespace Generated.Graph.{Namespace} {
 
         private static void GenerateNode(Type type, MethodInfo method, NodeAttribute attr) {
             var code = GenerateCodeBody(type.Name, method.Name + "Node", attr.title, attr.note, attr.isFlow);
-            var defines = GenerateDefinesCode(method);
-            var init = GenerateInitCode(method);
+            var defines = GenerateDefinesCode(method, attr);
+            var init = GenerateInitCode(method, attr);
             var call = GenerateCallCode(type, method, attr, false);
             var callAsync = GenerateCallCode(type, method, attr, true);
             var ret = method.ReturnType.FullName == "System.Void" ? "null" : "this.ret";
@@ -129,10 +130,14 @@ namespace Generated.Graph.{Namespace} {
             return sb;
         }
 
-        private static string GenerateDefinesCode(MethodInfo method) {
+        private static string GenerateDefinesCode(MethodInfo method, NodeAttribute attr) {
             var sb = new StringBuilder();
 
             foreach (var p in method.GetParameters()) {
+                if (attr.ingores.Contains(p.Name)) {
+                    continue;
+                }
+
                 var code = "\t\t" + DEFINE_INPUT_CODE;
                 var type = ConvertType(p.ParameterType);
 
@@ -152,10 +157,14 @@ namespace Generated.Graph.{Namespace} {
             return sb.ToString();
         }
 
-        private static string GenerateInitCode(MethodInfo method) {
+        private static string GenerateInitCode(MethodInfo method, NodeAttribute attr) {
             var sb = new StringBuilder();
 
             foreach (var p in method.GetParameters()) {
+                if (attr.ingores.Contains(p.Name)) {
+                    continue;
+                }
+
                 var code = INIT_CODE;
                 code = code.Replace("{Name}", p.Name);
                 sb.AppendLine("\t\t\t" + code);
@@ -175,9 +184,19 @@ namespace Generated.Graph.{Namespace} {
             }
 
             foreach (var p in pars) {
-                var code = async ? GET_VALUE_ASYNC_CODE : GET_VALUE_CODE;
-                var t = ConvertType(p.ParameterType);
+                string code;
 
+                if (attr.ingores.Contains(p.Name)) {
+                    code = GET_VAR_CODE;
+                }
+                else if (async) {
+                    code = GET_VALUE_ASYNC_CODE;
+                }
+                else {
+                    code = GET_VALUE_CODE;
+                }
+
+                var t = ConvertType(p.ParameterType);
                 code = code.Replace("{Type}", t);
                 code = code.Replace("{Name}", p.Name);
                 sb.AppendLine("\t\t\t" + code);

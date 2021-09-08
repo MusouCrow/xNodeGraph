@@ -1,3 +1,4 @@
+using UnityEngine;
 using System.Threading.Tasks;
 using Game.Graph;
 
@@ -13,6 +14,11 @@ namespace Game.Lib {
             await Task.Delay(5000);
 
             return v;
+        }
+
+        [Node("数学-设置名称", "", true, "gameObject")]
+        public static void SetName(GameObject gameObject, string named) {
+            gameObject.name = named;
         }
     }
 }
