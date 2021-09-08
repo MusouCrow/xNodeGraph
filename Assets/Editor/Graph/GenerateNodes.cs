@@ -67,7 +67,8 @@ namespace Generated.Graph.{Namespace} {
         public static Dictionary<Type, Type> TypeMapping = new Dictionary<Type, Type>() {
             {typeof(System.Single), typeof(Number)},
             {typeof(System.Int32), typeof(Number)},
-            {typeof(System.Boolean), typeof(Bool)}
+            {typeof(System.Boolean), typeof(Bool)},
+            {typeof(UnityEngine.Vector3), typeof(Vec3)}
         };
 
         [MenuItem("Tools/Graph/Generate Nodes")]

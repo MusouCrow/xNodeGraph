@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Game.Graph {
     // 插槽，表示代码执行的流向
@@ -20,6 +21,15 @@ namespace Game.Graph {
     [Serializable]
     public class Bool {
         public bool value;
+
+        public override string ToString() {
+            return this.value.ToString();
+        }
+    }
+
+    [Serializable]
+    public class Vec3 {
+        public Vector3 value;
 
         public override string ToString() {
             return this.value.ToString();
