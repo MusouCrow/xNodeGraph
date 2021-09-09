@@ -69,7 +69,8 @@ namespace Generated.Graph.{Namespace} {
             {typeof(System.Single), typeof(Number)},
             {typeof(System.Int32), typeof(Number)},
             {typeof(System.Boolean), typeof(Bool)},
-            {typeof(UnityEngine.Vector3), typeof(Vec3)}
+            {typeof(UnityEngine.Vector3), typeof(Vec3)},
+            {typeof(System.Object), typeof(Obj)}
         };
 
         [MenuItem("Tools/Graph/Generate Nodes")]

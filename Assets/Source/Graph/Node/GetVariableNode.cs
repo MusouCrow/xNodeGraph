@@ -23,13 +23,16 @@ namespace Game.Graph {
         public Obj ret;
 
         public override object Run(Runtime runtime) {
-            return runtime.variable[this.var];
+            this.ret.value = runtime.variable[this.var];
+
+            return this.ret;
         }
 
         public async override Task<object> RunAsync(Runtime runtime) {
             await Task.CompletedTask;
+            this.ret.value = runtime.variable[this.var];
             
-            return runtime.variable[this.var];
+            return this.ret;
         }
     }
 }

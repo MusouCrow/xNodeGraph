@@ -7,7 +7,13 @@ namespace Game.Graph {
     public class Solt {}
 
     [Serializable]
-    public class Obj {}
+    public class Obj {
+        public object value;
+
+        public override string ToString() {
+            return this.value.ToString();
+        }
+    }
 
     [Serializable]
     public class Number {

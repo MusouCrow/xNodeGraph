@@ -20,5 +20,15 @@ namespace Game.Lib {
         public static void SetName(GameObject gameObject, string named) {
             gameObject.name = named;
         }
+
+        [Node("数学-对象", "", true)]
+        public static object ObjectTT(object p) {
+            return p;
+        }
+
+        [Node("数学-取名称", "", false)]
+        public static string GetName(object p) {
+            return p.ToString();
+        }
     }
 }
