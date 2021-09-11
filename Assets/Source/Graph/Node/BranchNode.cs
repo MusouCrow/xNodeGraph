@@ -40,10 +40,14 @@ namespace Game.Graph {
             var condition = this.GetValue<Bool>(this.condition, this.conditionNode, runtime);
             
             if (condition.value) {
-                this.TrueNode.Run(runtime);
+                if (this.TrueNode) {
+                    runtime.RunNode(this.TrueNode);
+                } 
             }
             else {
-                this.FalseNode.Run(runtime);
+                if (this.FalseNode) {
+                    runtime.RunNode(this.FalseNode);
+                }
             }
 
             return null;
@@ -53,14 +57,17 @@ namespace Game.Graph {
             var condition = await this.GetValueAsync<Bool>(this.condition, this.conditionNode, runtime);
 
             if (condition.value) {
-                this.TrueNode.Run(runtime);
+                if (this.TrueNode) {
+                    await runtime.RunNodeAsync(this.TrueNode);
+                } 
             }
             else {
-                this.FalseNode.Run(runtime);
+                if (this.FalseNode) {
+                    await runtime.RunNodeAsync(this.FalseNode);
+                }
             }
 
             return null;
         }
     }
 }
-

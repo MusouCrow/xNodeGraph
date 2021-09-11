@@ -48,7 +48,7 @@ namespace Game.Graph {
             }
         }
 
-        private void RunNode(BaseNode node) {
+        public void RunNode(BaseNode node) {
             node.Run(this);
 
             var next = node.NextNode;
@@ -58,7 +58,7 @@ namespace Game.Graph {
             }
         }
 
-        private async Task RunNodeAsync(BaseNode node) {
+        public async Task RunNodeAsync(BaseNode node) {
             await node.RunAsync(this);
 
             var next = node.NextNode;
