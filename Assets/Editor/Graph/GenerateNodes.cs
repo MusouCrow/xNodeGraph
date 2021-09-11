@@ -224,6 +224,10 @@ namespace Generated.Graph.{Namespace} {
             sb.Append("(");
 
             for (int i = 0; i < pars.Length; i++) {
+                if (pars[i].ParameterType == typeof(System.Int32)) {
+                    sb.Append("(int)");
+                }
+
                 sb.Append(pars[i].Name);
                 
                 if (IsValueType(pars[i].ParameterType)) {

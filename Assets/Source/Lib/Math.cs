@@ -30,5 +30,10 @@ namespace Game.Lib {
         public static string GetName(object p) {
             return p.ToString();
         }
+
+        [Node("数学-设置整数")]
+        public static void SetInt(int v) {
+
+        }
     }
 }
