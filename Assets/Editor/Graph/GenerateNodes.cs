@@ -199,7 +199,7 @@ namespace Generated.Graph.{Namespace} {
                     code = GET_VALUE_CODE;
                 }
 
-                var t = ConvertType(p.ParameterType);
+                var t = ConvertType(p.ParameterType, true);
                 code = code.Replace("{Type}", t);
                 code = code.Replace("{Name}", p.Name);
                 sb.AppendLine("\t\t\t" + code);
@@ -230,7 +230,7 @@ namespace Generated.Graph.{Namespace} {
 
                 sb.Append(pars[i].Name);
                 
-                if (IsValueType(pars[i].ParameterType)) {
+                if (IsValueType(pars[i].ParameterType, true)) {
                     sb.Append(".value");
                 }
 
@@ -266,17 +266,19 @@ namespace Generated.Graph.{Namespace} {
             Debug.Log("Write to " + path);
         }
 
-        private static bool IsValueType(Type type) {
+        private static bool IsValueType(Type type, bool convertObj=false) {
             var gtypes = type.GenericTypeArguments;
 
             if (gtypes != null && gtypes.Length > 0 && type.BaseType == typeof(Task)) {
                 type = gtypes[0];
             }
 
-            return TypeMapping.ContainsKey(type);
+            bool cond = convertObj ? type != typeof(object) : true;
+
+            return TypeMapping.ContainsKey(type) && cond;
         }
 
-        private static string ConvertType(Type type) {
+        private static string ConvertType(Type type, bool convertObj=false) {
             var gtypes = type.GenericTypeArguments;
 
             if (gtypes != null && gtypes.Length > 0) {
@@ -284,7 +286,7 @@ namespace Generated.Graph.{Namespace} {
                     type = gtypes[0];
                 }
                 else {
-                    return ConvertGenericType(type);
+                    return ConvertGenericType(type, convertObj);
                 }
             }
 
@@ -292,10 +294,14 @@ namespace Generated.Graph.{Namespace} {
                 type = TypeMapping[type];
             }
 
+            if (convertObj && type == typeof(Obj)) {
+                type = typeof(object);
+            }
+
             return type.FullName;
         }
 
-        private static string ConvertGenericType(Type type) {
+        private static string ConvertGenericType(Type type, bool convertObj=false) {
             var gtypes = type.GenericTypeArguments;
 
             var sb = new StringBuilder();
@@ -303,7 +309,7 @@ namespace Generated.Graph.{Namespace} {
             sb.Append("<");
 
             for (int i = 0; i < gtypes.Length; i++) {
-                var t = ConvertType(gtypes[i]);
+                var t = ConvertType(gtypes[i], convertObj);
                 sb.Append(t);
 
                 if (i < gtypes.Length - 1) {
