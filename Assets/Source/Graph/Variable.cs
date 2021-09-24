@@ -41,4 +41,13 @@ namespace Game.Graph {
             return this.value.ToString();
         }
     }
+
+    [Serializable]
+    public class Col {
+        public Color value;
+
+        public override string ToString() {
+            return this.value.ToString();
+        }
+    }
 }

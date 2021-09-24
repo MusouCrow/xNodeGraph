@@ -75,5 +75,45 @@ namespace Game.Graph {
 
             return value;
         }
+
+        public object GetObject(BaseNode node, Runtime runtime) {
+            if (!node) {
+                return null;
+            }
+
+            if (runtime.cache.ContainsKey(node)) {
+                return runtime.cache[node];
+            }
+
+            var value = node.Run(runtime);
+
+            if (value is Obj) {
+                var obj = value as Obj;
+
+                return obj.value;
+            }
+
+            return value;
+        }
+
+        public async Task<object> GetObjectAsync(BaseNode node, Runtime runtime) {
+            if (!node) {
+                return null;
+            }
+
+            if (runtime.cache.ContainsKey(node)) {
+                return runtime.cache[node];
+            }
+
+            var value = await node.RunAsync(runtime);
+
+            if (value is Obj) {
+                var obj = value as Obj;
+
+                return obj.value;
+            }
+
+            return value;
+        }
     }
 }

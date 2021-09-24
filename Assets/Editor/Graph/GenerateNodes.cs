@@ -59,6 +59,8 @@ namespace Generated.Graph.{Namespace} {
         private const string INIT_CODE = "this.{Name}Node = this.GetPortNode(\"{Name}\");";
         private const string GET_VALUE_CODE = "var {Name} = this.GetValue<{Type}>(this.{Name}, this.{Name}Node, runtime);";
         private const string GET_VALUE_ASYNC_CODE = "var {Name} = await this.GetValueAsync<{Type}>(this.{Name}, this.{Name}Node, runtime);";
+        private const string GET_OBJECT_CODE = "var {Name} = this.GetObject(this.{Name}Node, runtime);";
+        private const string GET_OBJECT_ASYNC_CODE = "var {Name} = await this.GetObjectAsync(this.{Name}Node, runtime);";
         private const string CACHE_VALUE_CODE = "runtime.CacheValue(this, this.ret);";
         private const string GET_VAR_CODE = "var {Name} = runtime.variable[\"{Name}\"] as {Type};";
         private const string AWAIT_CODE = "await Task.CompletedTask;";
@@ -70,7 +72,8 @@ namespace Generated.Graph.{Namespace} {
             {typeof(System.Int32), typeof(Number)},
             {typeof(System.Boolean), typeof(Bool)},
             {typeof(UnityEngine.Vector3), typeof(Vec3)},
-            {typeof(System.Object), typeof(Obj)}
+            {typeof(System.Object), typeof(Obj)},
+            {typeof(UnityEngine.Color), typeof(Col)},
         };
 
         [MenuItem("Tools/Graph/Generate Nodes")]
@@ -110,7 +113,7 @@ namespace Generated.Graph.{Namespace} {
             var init = GenerateInitCode(method, attr);
             var call = GenerateCallCode(type, method, attr, false);
             var callAsync = GenerateCallCode(type, method, attr, true);
-            var ret = method.ReturnType.FullName == "System.Void" ? "null" : "this.ret";
+            var ret = GenerateReturnCode(method.ReturnType);
             
             code = code.Replace("{Defines}", defines);
             code = code.Replace("{Init}", init);
@@ -188,15 +191,16 @@ namespace Generated.Graph.{Namespace} {
 
             foreach (var p in pars) {
                 string code;
+                bool isObj = p.ParameterType == typeof(object);
 
                 if (attr.ingores.Contains(p.Name)) {
                     code = GET_VAR_CODE;
                 }
                 else if (async) {
-                    code = GET_VALUE_ASYNC_CODE;
+                    code = isObj ? GET_OBJECT_ASYNC_CODE : GET_VALUE_ASYNC_CODE;
                 }
                 else {
-                    code = GET_VALUE_CODE;
+                    code = isObj ? GET_OBJECT_CODE : GET_VALUE_CODE;
                 }
 
                 var t = ConvertType(p.ParameterType, true);
@@ -253,6 +257,22 @@ namespace Generated.Graph.{Namespace} {
             return sb.ToString();
         }
 
+        private static string GenerateReturnCode(Type type) {
+            string ret;
+
+            if (type.FullName == "System.Void") {
+                ret = "null";
+            }
+            else if (type == typeof(object)) {
+                ret = "this.ret.value";
+            }
+            else {
+                ret = "this.ret";
+            }
+
+            return ret;
+        }
+
         private static void WriteCode(string nameSpace, string className, string code) {
             var path = nameSpace.Replace(".", "/");
             path = GEN_PATH + path;
@@ -298,7 +318,10 @@ namespace Generated.Graph.{Namespace} {
                 type = typeof(object);
             }
 
-            return type.FullName;
+            var name = type.FullName;
+            name = name.Replace("+", ".");
+
+            return name;
         }
 
         private static string ConvertGenericType(Type type, bool convertObj=false) {

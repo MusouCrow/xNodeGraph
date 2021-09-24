@@ -18,11 +18,11 @@ namespace Game.Graph {
         }
 
         [Input(connectionType = ConnectionType.Override)]
-        public Object a;
+        public Obj a;
         private BaseNode aNode;
 
         [Input(connectionType = ConnectionType.Override)]
-        public Object b;
+        public Obj b;
         private BaseNode bNode;
 
         [Output]
@@ -35,16 +35,16 @@ namespace Game.Graph {
         }
 
         public override object Run(Runtime runtime) {
-            var a = this.GetValue<Object>(this.a, this.aNode, runtime);
-            var b = this.GetValue<Object>(this.b, this.bNode, runtime);
+            var a = this.GetObject(this.aNode, runtime);
+            var b = this.GetObject(this.bNode, runtime);
             this.ret.value = a == b;
             
             return this.ret;
         }
 
         public async override Task<object> RunAsync(Runtime runtime) {
-            var a = await this.GetValueAsync<Object>(this.a, this.aNode, runtime);
-            var b = await this.GetValueAsync<Object>(this.b, this.bNode, runtime);
+            var a = await this.GetObjectAsync(this.aNode, runtime);
+            var b = await this.GetObjectAsync(this.bNode, runtime);
             this.ret.value = a == b;
             
             return this.ret;

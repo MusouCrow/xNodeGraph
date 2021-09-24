@@ -29,29 +29,15 @@ namespace Game.Graph {
         }
 
         public override object Run(Runtime runtime) {
-            var value = this.GetValue<object>(this.value, this.valueNode, runtime);
-
-            if (value is Obj) {
-                var obj = value as Obj;
-                runtime.variable[this.var] = obj.value;
-            }
-            else {
-                runtime.variable[this.var] = value;
-            }
+            var value = this.GetObject(this.valueNode, runtime);
+            runtime.variable[this.var] = value;
 
             return null;
         }
 
         public async override Task<object> RunAsync(Runtime runtime) {
-            var value = await this.GetValueAsync<object>(this.value, this.valueNode, runtime);
-
-            if (value is Obj) {
-                var obj = value as Obj;
-                runtime.variable[this.var] = obj.value;
-            }
-            else {
-                runtime.variable[this.var] = value;
-            }
+            var value = await this.GetObjectAsync(this.valueNode, runtime);
+            runtime.variable[this.var] = value;
 
             return null;
         }
