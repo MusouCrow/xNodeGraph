@@ -8,11 +8,12 @@ namespace Game.Graph {
         public Dictionary<BaseNode, object> cache;
         public Dictionary<string, object> variable;
 
-        public Runtime(BaseGraph graph) {
+        public Runtime(BaseGraph graph, Blackboard blackboard=null) {
             this.graph = graph;
             this.cache = new Dictionary<BaseNode, object>();
             this.variable = new Dictionary<string, object>();
             this.exitIdSet = new HashSet<int>();
+            this.SetBlackboard(blackboard);
         }
 
         public async void RunFunc(string func, int id=0, BaseGraph graph=null) {
@@ -103,6 +104,17 @@ namespace Game.Graph {
 
         public void ExitFunc(string func) {
             this.ExitFunc(func.GetHashCode());
+        }
+
+        public void SetBlackboard(Blackboard blackboard) {
+            if (blackboard == null || blackboard.values == null) {
+                return;
+            }
+
+            foreach (var unit in blackboard.values) {
+                var value = unit.GetValue();
+                this.SetVariable(unit.name, value);
+            }
         }
     }
 }

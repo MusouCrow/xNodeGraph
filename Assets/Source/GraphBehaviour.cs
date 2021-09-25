@@ -6,11 +6,12 @@ namespace Game {
 
     public class GraphBehaviour : MonoBehaviour {
         public BaseGraph graph;
+        public Blackboard blackboard;
 
         private Runtime runtime;
 
         protected void Start() {
-            this.runtime = new Runtime(this.graph);
+            this.runtime = new Runtime(this.graph, this.blackboard);
             this.runtime.RunFunc("Init");
         }
 
