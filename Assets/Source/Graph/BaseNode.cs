@@ -15,6 +15,12 @@ namespace Game.Graph {
             }
         }
 
+        public virtual bool Async {
+            get {
+                return false;
+            }
+        }
+
         public BaseNode NextNode {
             get;
             protected set;
@@ -28,11 +34,11 @@ namespace Game.Graph {
             return null;
         }
 
-        public virtual object Run(Runtime runtime) {
+        public virtual object Run(Runtime runtime, int id) {
             return null;
         }
 
-        public async virtual Task<object> RunAsync(Runtime runtime) {
+        public async virtual Task<object> RunAsync(Runtime runtime, int id) {
             await Task.CompletedTask;
             
             return null;
@@ -56,7 +62,7 @@ namespace Game.Graph {
                     return (T)runtime.cache[node];
                 }
 
-                return (T)node.Run(runtime);
+                return (T)node.Run(runtime, 0);
             }
 
             return value;
@@ -68,7 +74,7 @@ namespace Game.Graph {
                     return (T)runtime.cache[node];
                 }
 
-                var v = await node.RunAsync(runtime);
+                var v = await node.RunAsync(runtime, 0);
 
                 return (T)v;
             }
@@ -85,7 +91,7 @@ namespace Game.Graph {
                 return runtime.cache[node];
             }
 
-            var value = node.Run(runtime);
+            var value = node.Run(runtime, 0);
 
             if (value is Obj) {
                 var obj = value as Obj;
@@ -105,7 +111,7 @@ namespace Game.Graph {
                 return runtime.cache[node];
             }
 
-            var value = await node.RunAsync(runtime);
+            var value = await node.RunAsync(runtime, 0);
 
             if (value is Obj) {
                 var obj = value as Obj;

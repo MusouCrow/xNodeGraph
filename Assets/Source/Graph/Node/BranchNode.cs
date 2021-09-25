@@ -36,7 +36,7 @@ namespace Game.Graph {
             this.FalseNode = this.GetPortNode("False");
         }
 
-        public override object Run(Runtime runtime) {
+        public override object Run(Runtime runtime, int id) {
             var condition = this.GetValue<Bool>(this.condition, this.conditionNode, runtime);
             
             if (condition.value) {
@@ -53,7 +53,7 @@ namespace Game.Graph {
             return null;
         }
 
-        public async override Task<object> RunAsync(Runtime runtime) {
+        public async override Task<object> RunAsync(Runtime runtime, int id) {
             var condition = await this.GetValueAsync<Bool>(this.condition, this.conditionNode, runtime);
 
             if (condition.value) {

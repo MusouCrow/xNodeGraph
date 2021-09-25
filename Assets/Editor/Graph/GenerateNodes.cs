@@ -37,12 +37,12 @@ namespace Generated.Graph.{Namespace} {
 {Init}
         }
 
-        public override object Run(Runtime runtime) {
+        public override object Run(Runtime runtime, int id) {
 {Call}
             return {ReturnRun};
         }
 
-        public async override Task<object> RunAsync(Runtime runtime) {
+        public async override Task<object> RunAsync(Runtime runtime, int id) {
 {CallAsync}
             return {ReturnRun};
         }

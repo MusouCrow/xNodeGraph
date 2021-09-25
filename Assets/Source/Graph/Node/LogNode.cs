@@ -27,14 +27,14 @@ namespace Game.Graph {
             this.valueNode = this.GetPortNode("value");
         }
 
-        public override object Run(Runtime runtime) {
+        public override object Run(Runtime runtime, int id) {
             var value = this.GetValue<object>(this.value, this.valueNode, runtime);
             Debug.Log(value.ToString());
 
             return null;
         }
 
-        public async override Task<object> RunAsync(Runtime runtime) {
+        public async override Task<object> RunAsync(Runtime runtime, int id) {
             var value = await this.GetValueAsync<object>(this.value, this.valueNode, runtime);
             Debug.Log(value.ToString());
 

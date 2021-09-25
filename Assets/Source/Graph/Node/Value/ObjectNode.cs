@@ -16,11 +16,11 @@ namespace Game.Graph {
         [Output]
         public Object Ret;
 
-        public override object Run(Runtime runtime) {
+        public override object Run(Runtime runtime, int id) {
             return this.value;
         }
 
-        public async override Task<object> RunAsync(Runtime runtime) {
+        public async override Task<object> RunAsync(Runtime runtime, int id) {
             await Task.CompletedTask;
             
             return this.value;

@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using XNode;
 
 namespace Game.Graph {
     [CreateNodeMenuAttribute("调用功能")]
@@ -20,21 +19,29 @@ namespace Game.Graph {
         public string func;
         private BaseNode funcNode;
 
+        public bool watting;
+
         protected override void Init() {
             base.Init();
             this.funcNode = this.GetPortNode("func");
         }
 
-        public override object Run(Runtime runtime) {
+        public override object Run(Runtime runtime, int id) {
             var func = this.GetValue<string>(this.func, this.funcNode, runtime);
-            runtime.RunFunc(func);
+            runtime.RunFunc(func, id);
 
             return null;
         }
 
-        public async override Task<object> RunAsync(Runtime runtime) {
+        public async override Task<object> RunAsync(Runtime runtime, int id) {
             var func = await this.GetValueAsync<string>(this.func, this.funcNode, runtime);
-            runtime.RunFuncAsync(func);
+            
+            if (watting) {
+                await runtime.RunFuncWaitting(func, id);
+            }
+            else {
+                runtime.RunFunc(func, id);
+            }
 
             return null;
         }

@@ -29,7 +29,7 @@ namespace Game.Graph {
             this.prefabNode = this.GetPortNode("prefab");
         }
 
-        public override object Run(Runtime runtime) {
+        public override object Run(Runtime runtime, int id) {
             var prefab = this.GetValue<GameObject>(this.prefab, this.prefabNode, runtime);
             var go = GameObject.Instantiate(prefab);
             runtime.CacheValue(this, go);
@@ -37,7 +37,7 @@ namespace Game.Graph {
             return go;
         }
 
-        public async override Task<object> RunAsync(Runtime runtime) {
+        public async override Task<object> RunAsync(Runtime runtime, int id) {
             var prefab = await this.GetValueAsync<GameObject>(this.prefab, this.prefabNode, runtime);
             var go = GameObject.Instantiate(prefab);
             runtime.CacheValue(this, go);

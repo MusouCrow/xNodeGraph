@@ -41,7 +41,7 @@ namespace Game.Graph {
             this.bNode = this.GetPortNode("b");
         }
 
-        public override object Run(Runtime runtime) {
+        public override object Run(Runtime runtime, int id) {
             var a = this.GetValue<Bool>(this.a, this.aNode, runtime);
             var b = this.GetValue<Bool>(this.b, this.bNode, runtime);
             this.ret.value = this.Calculate(a.value, b.value);
@@ -49,7 +49,7 @@ namespace Game.Graph {
             return this.ret;
         }
 
-        public async override Task<object> RunAsync(Runtime runtime) {
+        public async override Task<object> RunAsync(Runtime runtime, int id) {
             var a = await this.GetValueAsync<Bool>(this.a, this.aNode, runtime);
             var b = await this.GetValueAsync<Bool>(this.b, this.bNode, runtime);
             this.ret.value = this.Calculate(a.value, b.value);
