@@ -88,7 +88,12 @@ namespace GEditor.Graph {
             NodeEditorUtilities.GetAttrib(type, out attrib);
 
             if (NodeEditorUtilities.GetAttrib(type, out attrib)) {
-                var title = attrib.menuName.Replace("-", "/");
+                var title = attrib.menuName;
+                var pos2 = title.LastIndexOf("-");
+
+                if (pos2 >= 0) {
+                    title = title.Substring(0, pos2) + "/" + title;
+                }
 
                 return title + " (" + name + ")";
             }
