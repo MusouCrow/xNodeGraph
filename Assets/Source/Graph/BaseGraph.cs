@@ -14,7 +14,7 @@ namespace Game.Graph {
 
         protected void OnEnable() {
             this.funcMap = new Dictionary<string, Func>();
-
+            
             foreach (var node in this.nodes) {
                 var n = node as FuncNode;
 
@@ -43,19 +43,33 @@ namespace Game.Graph {
                     return true;
                 }
             }
+            else if (node is BranchNode) {
+                var branchNode = node as BranchNode;
+                var trueNode = branchNode.GetPortNode("True");
+                var falseNode = branchNode.GetPortNode("False");
 
+                if (trueNode && this.IsAsyncNode(trueNode)) {
+                    return true;
+                }
+                else if (falseNode && this.IsAsyncNode(falseNode)) {
+                    return true;
+                }
+            }
+
+            /*
             foreach (var port in node.Inputs) {
                 if (port.fieldName == "In") {
                     continue;
                 }
 
                 var n = node.GetPortNode(port.fieldName);
-
-                if (n && this.IsAsyncNode(n)) {
+                
+                if (n && n != node && this.IsAsyncNode(n)) {
                     return true;
                 }
             }
-            
+            */
+
             if (node.NextNode && this.IsAsyncNode(node.NextNode)) {
                 return true;
             }

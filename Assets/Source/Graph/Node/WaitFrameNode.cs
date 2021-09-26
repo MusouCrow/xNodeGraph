@@ -2,11 +2,11 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Game.Graph {
-    [CreateNodeMenuAttribute("等待一帧")]
+    [CreateNodeMenuAttribute("流程-等待一帧")]
     public class WaitFrameNode : FlowNode {
         public override string Title {
             get {
-                return "等待一帧";
+                return "流程-等待一帧";
             }
         }
 

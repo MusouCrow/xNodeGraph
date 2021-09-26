@@ -67,6 +67,10 @@ namespace GEditor.Graph {
             bool bHas = b.Name.Contains("/");
 
             if (aHas && bHas) {
+                if (a.Name.Length == b.Name.Length) {
+                    return a.GetHashCode() > b.GetHashCode() ? 1 : -1;
+                }
+
                 return a.Name.Length > b.Name.Length ? 1 : -1;
             }
             else if (aHas) {

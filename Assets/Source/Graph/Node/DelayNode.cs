@@ -2,11 +2,11 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Game.Graph {
-    [CreateNodeMenuAttribute("延时")]
+    [CreateNodeMenuAttribute("流程-延时")]
     public class DelayNode : FlowNode {
         public override string Title {
             get {
-                return "延时";
+                return "流程-延时";
             }
         }
 

@@ -1,11 +1,11 @@
 using System.Threading.Tasks;
 
 namespace Game.Graph {
-    [CreateNodeMenuAttribute("结束")]
+    [CreateNodeMenuAttribute("流程-结束")]
     public class ExitNode : FlowNode {
         public override string Title {
             get {
-                return "结束";
+                return "流程-结束";
             }
         }
 
