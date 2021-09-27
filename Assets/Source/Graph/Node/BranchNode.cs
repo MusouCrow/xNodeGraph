@@ -41,12 +41,12 @@ namespace Game.Graph {
             
             if (condition.value) {
                 if (this.TrueNode) {
-                    runtime.RunNode(this.TrueNode);
+                    runtime.RunNode(this.TrueNode, id);
                 } 
             }
             else {
                 if (this.FalseNode) {
-                    runtime.RunNode(this.FalseNode);
+                    runtime.RunNode(this.FalseNode, id);
                 }
             }
 
@@ -58,12 +58,12 @@ namespace Game.Graph {
 
             if (condition.value) {
                 if (this.TrueNode) {
-                    await runtime.RunNodeAsync(this.TrueNode);
+                    await runtime.RunNodeAsync(this.TrueNode, id);
                 } 
             }
             else {
                 if (this.FalseNode) {
-                    await runtime.RunNodeAsync(this.FalseNode);
+                    await runtime.RunNodeAsync(this.FalseNode, id);
                 }
             }
 

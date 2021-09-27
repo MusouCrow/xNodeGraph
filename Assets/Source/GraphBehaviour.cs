@@ -16,7 +16,9 @@ namespace Game {
         }
 
         protected void Update() {
-            
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                this.runtime.RunFunc("Enter");
+            }
         }
     }
 }
