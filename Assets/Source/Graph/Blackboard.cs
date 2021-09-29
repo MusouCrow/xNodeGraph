@@ -15,6 +15,7 @@ namespace Game.Graph {
     public class Blackboard {
         [Serializable]
         public class Unit {
+            public string type;
             public string name;
             public Number number;
             public Bool boolean;
@@ -24,19 +25,19 @@ namespace Game.Graph {
             public Object obj;
 
             public object GetValue() {
-                if (this.number != null) {
+                if (this.type == typeof(Number).ToString()) {
                     return this.number;
                 }
-                else if (this.boolean != null) {
+                else if (this.type == typeof(Bool).ToString()) {
                     return this.boolean;
                 }
-                else if (this.text != null) {
+                else if (this.type == typeof(string).ToString()) {
                     return this.text;
                 }
-                else if (this.col != null) {
+                else if (this.type == typeof(Col).ToString()) {
                     return this.col;
                 }
-                else if (this.vec3 != null) {
+                else if (this.type == typeof(Vec3).ToString()) {
                     return this.vec3;
                 }
                 
@@ -47,6 +48,7 @@ namespace Game.Graph {
         public Unit[] values;
     }
 
+    #if UNITY_EDITOR
     public class BlackboardDrawer : OdinValueDrawer<Blackboard> {
         private static Type[] Types = new Type[] {
             typeof(Number),
@@ -63,25 +65,27 @@ namespace Game.Graph {
             
             GUILayout.Label("Blackboard", EditorStyles.boldLabel);
 
+            EditorGUI.BeginChangeCheck();
+
             for (int i = 0; i < self.values.Length; i++) {
                 var unit = self.values[i];
 
                 EditorGUILayout.BeginHorizontal();
                 unit.name = EditorGUILayout.TextField(unit.name);
 
-                if (unit.number != null) {
+                if (unit.type == typeof(Number).ToString()) {
                     unit.number.value = EditorGUILayout.FloatField(unit.number.value);
                 }
-                else if (unit.boolean != null) {
+                else if (unit.type == typeof(Bool).ToString()) {
                     unit.boolean.value = EditorGUILayout.Toggle(unit.boolean.value);
                 }
-                else if (unit.text != null) {
+                else if (unit.type == typeof(string).ToString()) {
                     unit.text = EditorGUILayout.TextField(unit.text);
                 }
-                else if (unit.col != null) {
+                else if (unit.type == typeof(Col).ToString()) {
                     unit.col.value = EditorGUILayout.ColorField(unit.col.value);
                 }
-                else if (unit.vec3 != null) {
+                else if (unit.type == typeof(Vec3).ToString()) {
                     unit.vec3.value = EditorGUILayout.Vector3Field("", unit.vec3.value);
                 }
                 else {
@@ -101,6 +105,11 @@ namespace Game.Graph {
 
             if (removeIndex > -1) {
                 this.RemoveUnit(removeIndex);
+            }
+
+            if (EditorGUI.EndChangeCheck()) {
+                // 强行保存
+                EditorUtility.SetDirty(Camera.main);
             }
         }
 
@@ -122,7 +131,7 @@ namespace Game.Graph {
         private void AddUnit(Type type) {
             Blackboard self = this.ValueEntry.SmartValue;
             var unit = new Blackboard.Unit();
-            unit.text = null;
+            unit.type = type.ToString();
             
             if (type == typeof(Number)) {
                 unit.number = new Number();
@@ -161,4 +170,5 @@ namespace Game.Graph {
             }
         }
     }
+    #endif
 }
