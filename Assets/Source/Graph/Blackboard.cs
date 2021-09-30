@@ -108,8 +108,7 @@ namespace Game.Graph {
             }
 
             if (EditorGUI.EndChangeCheck()) {
-                // 强行保存
-                EditorUtility.SetDirty(Camera.main);
+                EditorUtility.SetDirty(Selection.activeObject);
             }
         }
 
