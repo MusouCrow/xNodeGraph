@@ -108,7 +108,7 @@ namespace Generated.Graph.{Namespace} {
         }
 
         private static void GenerateNode(Type type, MethodInfo method, NodeAttribute attr) {
-            var code = GenerateCodeBody(type.Name, method.Name + "Node", attr.title, attr.note, attr.isFlow);
+            var code = GenerateCodeBody("G" + type.FullName, method.Name + "Node", attr.title, attr.note, attr.isFlow);
             var defines = GenerateDefinesCode(method, attr);
             var init = GenerateInitCode(method, attr);
             var call = GenerateCallCode(type, method, attr, false);
@@ -152,7 +152,7 @@ namespace Generated.Graph.{Namespace} {
                 sb.AppendLine(code);
             }
             
-            if (method.ReturnType.FullName != "System.Void") {
+            if (!IsVoidType(method.ReturnType)) {
                 var code = "\t\t" + DEFINE_OUTPUT_CODE;
                 var type = ConvertType(method.ReturnType);
 
@@ -182,7 +182,7 @@ namespace Generated.Graph.{Namespace} {
         private static string GenerateCallCode(Type type, MethodInfo method, NodeAttribute attr, bool async) {
             var sb = new StringBuilder();
             var pars = method.GetParameters();
-            var hasRet = method.ReturnType.FullName != "System.Void";
+            var hasRet = !IsVoidType(method.ReturnType);
             var asyncAttr = method.GetCustomAttribute<AsyncStateMachineAttribute>();
 
             if (asyncAttr != null && !async) {
@@ -259,8 +259,8 @@ namespace Generated.Graph.{Namespace} {
 
         private static string GenerateReturnCode(Type type) {
             string ret;
-
-            if (type.FullName == "System.Void") {
+            
+            if (IsVoidType(type)) {
                 ret = "null";
             }
             else if (type == typeof(object)) {
@@ -343,6 +343,16 @@ namespace Generated.Graph.{Namespace} {
             sb.Append(">");
 
             return sb.ToString();
+        }
+
+        private static bool IsVoidType(Type type) {
+            if (type.FullName == "System.Void") {
+                return true;
+            }
+
+            var gtypes = type.GenericTypeArguments;
+
+            return type == typeof(Task) && (gtypes == null || gtypes.Length == 0);
         }
     }
 }
