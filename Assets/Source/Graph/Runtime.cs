@@ -7,6 +7,11 @@ namespace Game.Graph {
         private HashSet<int> exitIdSet;
         public Dictionary<BaseNode, object> cache;
         public Dictionary<string, object> variable;
+        
+        public bool IsExit {
+            get;
+            private set;
+        }
 
         public Runtime(BaseGraph graph, Blackboard blackboard=null) {
             this.graph = graph;
@@ -14,6 +19,10 @@ namespace Game.Graph {
             this.variable = new Dictionary<string, object>();
             this.exitIdSet = new HashSet<int>();
             this.SetBlackboard(blackboard);
+        }
+
+        public void Exit() {
+            this.IsExit = true;
         }
 
         public async void RunFunc(string func, int id=0, BaseGraph graph=null) {
@@ -57,13 +66,13 @@ namespace Game.Graph {
         }
 
         public void CacheValue(BaseNode node, object value) {
-            if (node.NextNode) {
+            if (node is FlowNode) {
                 this.cache[node] = value;
             }
         }
 
         public void RunNode(BaseNode node, int id=0) {
-            if (this.exitIdSet.Contains(id)) {
+            if (this.exitIdSet.Contains(id) || this.IsExit) {
                 return;
             }
 
@@ -77,7 +86,7 @@ namespace Game.Graph {
         }
 
         public async Task RunNodeAsync(BaseNode node, int id=0) {
-            if (this.exitIdSet.Contains(id)) {
+            if (this.exitIdSet.Contains(id) || this.IsExit) {
                 return;
             }
 
@@ -104,6 +113,14 @@ namespace Game.Graph {
 
         public void ExitFunc(string func) {
             this.ExitFunc(func.GetHashCode());
+        }
+
+        public bool HasExit(int id) {
+            if (id > 0) {
+                return this.exitIdSet.Contains(id);
+            }
+
+            return false;
         }
 
         public void SetBlackboard(Blackboard blackboard) {
