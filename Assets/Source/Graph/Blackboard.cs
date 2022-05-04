@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 
 #if UNITY_EDITOR
     using UnityEditor;
+    using Sirenix.OdinInspector.Editor;
 #endif
 
 namespace Game.Graph {
@@ -66,6 +65,10 @@ namespace Game.Graph {
             GUILayout.Label("Blackboard", EditorStyles.boldLabel);
 
             EditorGUI.BeginChangeCheck();
+
+            if (self.values == null) {
+                self.values = new Blackboard.Unit[0];
+            }
 
             for (int i = 0; i < self.values.Length; i++) {
                 var unit = self.values[i];

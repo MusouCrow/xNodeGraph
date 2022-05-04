@@ -1,24 +1,35 @@
-using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Game {
+namespace Game.Component {
     using Graph;
-
+    
     public class GraphBehaviour : MonoBehaviour {
         public BaseGraph graph;
-        public Blackboard blackboard;
 
+        [SerializeField]
+        private Blackboard blackboard = new Blackboard();
         private Runtime runtime;
 
-        protected void Start() {
+        protected void Awake() {
             this.runtime = new Runtime(this.graph, this.blackboard);
-            this.runtime.RunFunc("Init");
+            this.runtime.RunFunc("Awake");
         }
 
-        protected void Update() {
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                this.runtime.RunFunc("Enter");
-            }
+        protected void Start() {
+            this.runtime.RunFunc("Start");
+        }
+
+        protected void OnDestroy() {
+            this.runtime.RunFunc("Destroy");
+            this.runtime.Exit();
+        }
+
+        protected void FixedUpdate() {
+            this.runtime.RunFunc("Update");
+        }
+
+        public void RunFunc(string func) {
+            this.runtime.RunFunc(func);
         }
     }
 }

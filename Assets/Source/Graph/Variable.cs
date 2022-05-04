@@ -6,48 +6,29 @@ namespace Game.Graph {
     [Serializable]
     public class Solt {}
 
-    [Serializable]
-    public class Obj {
-        public object value;
+    public class Variables<T> {
+        public T value;
 
         public override string ToString() {
             return this.value.ToString();
         }
-    }
+    } 
 
     [Serializable]
-    public class Number {
-        public float value;
-
-        public override string ToString() {
-            return this.value.ToString();
-        }
-    }
+    public class Obj : Variables<object> {}
 
     [Serializable]
-    public class Bool {
-        public bool value;
-
-        public override string ToString() {
-            return this.value.ToString();
-        }
-    }
+    public class Number : Variables<float> {}
 
     [Serializable]
-    public class Vec3 {
-        public Vector3 value;
-
-        public override string ToString() {
-            return this.value.ToString();
-        }
-    }
+    public class Bool : Variables<bool> {}
 
     [Serializable]
-    public class Col {
-        public Color value;
+    public class Vec3 : Variables<Vector3> {}
 
-        public override string ToString() {
-            return this.value.ToString();
-        }
-    }
+    [Serializable]
+    public class Col : Variables<Color> {}
+
+    [Serializable]
+    public class Quat : Variables<Quaternion> {}
 }

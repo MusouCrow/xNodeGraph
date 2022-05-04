@@ -56,6 +56,10 @@ namespace Game.Graph {
 
             var f = graph.funcMap[func];
             id = id > 0 ? id : func.GetHashCode();
+
+            if (id > 0 && this.exitIdSet.Contains(id)) {
+                this.exitIdSet.Remove(id);
+            }
             
             if (f.async) {
                 await this.RunNodeAsync(f.node, id);

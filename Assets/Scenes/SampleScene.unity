@@ -328,7 +328,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f85da708a9841e2bc85532bf658973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graph: {fileID: 0}
+  graph: {fileID: 11400000, guid: 54d343d59d36a4b2b8c111b06427d2d2, type: 2}
+  blackboard:
+    values:
+    - type: Game.Graph.Number
+      name: log
+      number:
+        value: 336
+      boolean:
+        value: 0
+      text: 
+      vec3:
+        value: {x: 0, y: 0, z: 0}
+      col:
+        value: {r: 0, g: 0, b: 0, a: 0}
+      obj: {fileID: 0}
 --- !u!4 &1258872072
 Transform:
   m_ObjectHideFlags: 0

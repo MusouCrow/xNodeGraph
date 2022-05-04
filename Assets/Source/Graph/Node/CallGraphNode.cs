@@ -20,17 +20,20 @@ namespace Game.Graph {
         public bool watting;
 
         public override object Run(Runtime runtime, int id) {
-            runtime.RunFunc(this.func, id, this.baseGraph);
+            var func = this.func == "" ? "Main" : this.func;
+            runtime.RunFunc(func, id, this.baseGraph);
 
             return null;
         }
 
         public async override Task<object> RunAsync(Runtime runtime, int id) {
+            var func = this.func == "" ? "Main" : this.func;
+
             if (watting) {
-                await runtime.RunFuncWaitting(this.func, id, this.baseGraph);
+                await runtime.RunFuncWaitting(func, id, this.baseGraph);
             }
             else {
-                runtime.RunFunc(this.func, id, this.baseGraph);
+                runtime.RunFunc(func, id, this.baseGraph);
             }
 
             return null;

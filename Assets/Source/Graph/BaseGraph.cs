@@ -67,26 +67,14 @@ namespace Game.Graph {
                 }
             }
 
-            /*
-            foreach (var port in node.Inputs) {
-                if (port.fieldName == "In") {
-                    continue;
-                }
+            cache.Add(node, false);
 
-                var n = node.GetPortNode(port.fieldName);
-                
-                if (n && n != node && this.IsAsyncNode(n)) {
-                    return true;
-                }
-            }
-            */
+            var next = node.GetPortNode("Out");
 
-            if (node.NextNode && this.IsAsyncNode(node.NextNode, cache)) {
-                cache.Add(node, true);
+            if (next && this.IsAsyncNode(next, cache)) {
                 return true;
             }
-
-            cache.Add(node, false);
+            
             return false;
         }
     }

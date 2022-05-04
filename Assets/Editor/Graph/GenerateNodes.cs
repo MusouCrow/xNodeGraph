@@ -14,7 +14,7 @@ namespace GEditor.Graph {
         private const string CODE = @"using System.Threading.Tasks;
 using Game.Graph;
 
-namespace Generated.Graph.{Namespace} {
+namespace Generated.Graph.{Namespace}_ {
     [CreateNodeMenuAttribute('{Title}')]
     public class {ClassName} : {ParentNode} {
         public override string Title {
@@ -26,6 +26,12 @@ namespace Generated.Graph.{Namespace} {
         public override string Note {
             get {
                 return '{Note}';
+            }
+        }
+
+        public override bool Async {
+            get {
+                return {Async};
             }
         }
 
@@ -55,6 +61,8 @@ namespace Generated.Graph.{Namespace} {
         private BaseNode {Name}Node;
         ";
 
+        private const string DEFINE_INPUT_CODE2 = @"public {Type} {Name};";
+
         private const string DEFINE_OUTPUT_CODE = "[Output]public {Type} ret;";
         private const string INIT_CODE = "this.{Name}Node = this.GetPortNode(\"{Name}\");";
         private const string GET_VALUE_CODE = "var {Name} = this.GetValue<{Type}>(this.{Name}, this.{Name}Node, runtime);";
@@ -72,11 +80,12 @@ namespace Generated.Graph.{Namespace} {
             {typeof(System.Int32), typeof(Number)},
             {typeof(System.Boolean), typeof(Bool)},
             {typeof(UnityEngine.Vector3), typeof(Vec3)},
+            {typeof(UnityEngine.Quaternion), typeof(Quat)},
             {typeof(System.Object), typeof(Obj)},
             {typeof(UnityEngine.Color), typeof(Col)},
         };
 
-        [MenuItem("Tools/Graph/Generate Nodes")]
+        [MenuItem("Tools/Generate Nodes")]
         public static void Menu() {
             ClearFolder();
             Generates();
@@ -108,7 +117,8 @@ namespace Generated.Graph.{Namespace} {
         }
 
         private static void GenerateNode(Type type, MethodInfo method, NodeAttribute attr) {
-            var code = GenerateCodeBody("G" + type.FullName, method.Name + "Node", attr.title, attr.note, attr.isFlow);
+            var asyncAttr = method.GetCustomAttribute<AsyncStateMachineAttribute>();
+            var code = GenerateCodeBody("G" + type.FullName, method.Name + "Node", attr.title, attr.note, attr.isFlow, asyncAttr != null);
             var defines = GenerateDefinesCode(method, attr);
             var init = GenerateInitCode(method, attr);
             var call = GenerateCallCode(type, method, attr, false);
@@ -124,7 +134,7 @@ namespace Generated.Graph.{Namespace} {
             WriteCode(type.FullName, method.Name + "Node", code.ToString());
         }
 
-        private static StringBuilder GenerateCodeBody(string nameSpace, string className, string title, string note, bool isFlow) {
+        private static StringBuilder GenerateCodeBody(string nameSpace, string className, string title, string note, bool isFlow, bool isAsync) {
             var sb = new StringBuilder(CODE);
             sb = sb.Replace("'", "\"");
             sb = sb.Replace("{Namespace}", nameSpace);
@@ -132,6 +142,7 @@ namespace Generated.Graph.{Namespace} {
             sb = sb.Replace("{ParentNode}", isFlow ? "FlowNode" : "BaseNode");
             sb = sb.Replace("{Title}", title);
             sb = sb.Replace("{Note}", note);
+            sb = sb.Replace("{Async}", isAsync.ToString().ToLower());
 
             return sb;
         }
@@ -144,7 +155,8 @@ namespace Generated.Graph.{Namespace} {
                     continue;
                 }
 
-                var code = "\t\t" + DEFINE_INPUT_CODE;
+                var define = p.ParameterType.IsEnum ? DEFINE_INPUT_CODE2 : DEFINE_INPUT_CODE;
+                var code = "\t\t" + define;
                 var type = ConvertType(p.ParameterType);
 
                 code = code.Replace("{Type}", type);
@@ -167,7 +179,7 @@ namespace Generated.Graph.{Namespace} {
             var sb = new StringBuilder();
 
             foreach (var p in method.GetParameters()) {
-                if (attr.ingores.Contains(p.Name)) {
+                if (attr.ingores.Contains(p.Name) || p.ParameterType.IsEnum) {
                     continue;
                 }
 
@@ -190,6 +202,10 @@ namespace Generated.Graph.{Namespace} {
             }
 
             foreach (var p in pars) {
+                if (p.ParameterType.IsEnum) {
+                    continue;
+                }
+
                 string code;
                 bool isObj = p.ParameterType == typeof(object);
 

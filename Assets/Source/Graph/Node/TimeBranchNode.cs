@@ -47,12 +47,15 @@ namespace Game.Graph {
 
             var now = UnityEngine.Time.time;
             var number = runtime.variable[this.val] as Number;
-            
+
             if ((now - number.value) > time.value) {
                 number.value = now;
+            }
+            
+            if (number.value == now && this.tickNode) {
                 runtime.RunNode(this.tickNode, id);
             }
-            else {
+            else if (this.runningNode) {
                 runtime.RunNode(this.runningNode, id);
             }
 
@@ -69,11 +72,11 @@ namespace Game.Graph {
             var now = UnityEngine.Time.time;
             var number = runtime.variable[this.val] as Number;
             
-            if ((now - number.value) > time.value) {
+            if ((now - number.value) > time.value && this.tickNode) {
                 number.value = now;
                 await runtime.RunNodeAsync(this.tickNode, id);
             }
-            else {
+            else if (this.runningNode) {
                 await runtime.RunNodeAsync(this.runningNode, id);
             }
 

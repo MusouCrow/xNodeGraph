@@ -2,27 +2,18 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Game.Graph {
-    [CreateNodeMenuAttribute("数值运算")]
-    public class CalculateNode : BaseNode {
+    [CreateNodeMenuAttribute("插值运算")]
+    public class LerpNode : BaseNode {
         public override string Title {
             get {
-                return "数值运算";
+                return "插值运算";
             }
         }
 
         public override string Note {
             get {
-                return "涉及多种的数值运算";
+                return "通过t取得a与b之间的值";
             }
-        }
-
-        public enum Method {
-            Add,
-            Minus,
-            Multiply,
-            Min,
-            Mod,
-            Div
         }
 
         [Input(connectionType = ConnectionType.Override)]
@@ -33,7 +24,9 @@ namespace Game.Graph {
         public Number b;
         private BaseNode bNode;
 
-        public Method method;
+        [Input(connectionType = ConnectionType.Override)]
+        public Number t;
+        private BaseNode tNode;
 
         [Output]
         public Number ret;
@@ -42,12 +35,14 @@ namespace Game.Graph {
             base.Init();
             this.aNode = this.GetPortNode("a");
             this.bNode = this.GetPortNode("b");
+            this.tNode = this.GetPortNode("t");
         }
 
         public override object Run(Runtime runtime, int id) {
             var a = this.GetValue<Number>(this.a, this.aNode, runtime);
             var b = this.GetValue<Number>(this.b, this.bNode, runtime);
-            this.ret.value = this.Calculate(a.value, b.value);
+            var t = this.GetValue<Number>(this.t, this.tNode, runtime);
+            this.ret.value = Mathf.Lerp(a.value, b.value, t.value);
             
             return this.ret;
         }
@@ -55,32 +50,10 @@ namespace Game.Graph {
         public async override Task<object> RunAsync(Runtime runtime, int id) {
             var a = await this.GetValueAsync<Number>(this.a, this.aNode, runtime);
             var b = await this.GetValueAsync<Number>(this.b, this.bNode, runtime);
-            this.ret.value = this.Calculate(a.value, b.value);
+            var t = await this.GetValueAsync<Number>(this.t, this.tNode, runtime);
+            this.ret.value = Mathf.Lerp(a.value, b.value, t.value);
             
             return this.ret;
-        }
-
-        private float Calculate(float a, float b) {
-            if (this.method == Method.Add) {
-                return a + b;
-            }
-            else if (this.method == Method.Minus) {
-                return a - b;
-            }
-            else if (this.method == Method.Multiply) {
-                return a * b;
-            }
-            else if (this.method == Method.Min) {
-                return Mathf.Min(a, b);
-            }
-            else if (this.method == Method.Mod) {
-                return a % b;
-            }
-            else if (this.method == Method.Div) {
-                return a / b;
-            }
-            
-            return 0;
         }
     }
 }

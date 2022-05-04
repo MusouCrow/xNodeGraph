@@ -28,7 +28,7 @@ namespace Game.Graph {
 
         public override object Run(Runtime runtime, int id) {
             var func = this.GetValue<string>(this.func, this.funcNode, runtime);
-            runtime.RunFunc(func, id);
+            runtime.RunFunc(func, id, this.graph as BaseGraph);
 
             return null;
         }
@@ -37,7 +37,7 @@ namespace Game.Graph {
             var func = await this.GetValueAsync<string>(this.func, this.funcNode, runtime);
             
             if (watting) {
-                await runtime.RunFuncWaitting(func, id);
+                await runtime.RunFuncWaitting(func, id, this.graph as BaseGraph);
             }
             else {
                 runtime.RunFunc(func, id);

@@ -37,7 +37,16 @@ namespace Game.Graph {
         public override object Run(Runtime runtime, int id) {
             var a = this.GetObject(this.aNode, runtime);
             var b = this.GetObject(this.bNode, runtime);
-            this.ret.value = a == b;
+            
+            if (a is Number && b is Number) {
+                var va = a as Number;
+                var vb = b as Number;
+                
+                this.ret.value = va.value == vb.value;
+            }
+            else {
+                this.ret.value = a == b;
+            }
             
             return this.ret;
         }
@@ -45,7 +54,16 @@ namespace Game.Graph {
         public async override Task<object> RunAsync(Runtime runtime, int id) {
             var a = await this.GetObjectAsync(this.aNode, runtime);
             var b = await this.GetObjectAsync(this.bNode, runtime);
-            this.ret.value = a == b;
+            
+            if (a is Number && b is Number) {
+                var va = a as Number;
+                var vb = b as Number;
+
+                this.ret.value = va.value == vb.value;
+            }
+            else {
+                this.ret.value = a == b;
+            }
             
             return this.ret;
         }
